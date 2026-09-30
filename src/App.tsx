@@ -1,0 +1,25 @@
+import { MotionConfig } from 'framer-motion';
+import { usePresentationNavigation } from './hooks/usePresentationNavigation';
+import { PresentationShell } from './components/PresentationShell';
+import { IntroScreen } from './screens/IntroScreen';
+import { TeamScreen } from './screens/TeamScreen';
+import { MemberScreen } from './screens/MemberScreen';
+import { TeamSummaryScreen } from './screens/TeamSummaryScreen';
+import { FinalScreen } from './screens/FinalScreen';
+export default function App() {
+  const nav = usePresentationNavigation();
+  const slide = nav.slide;
+  return (
+    <MotionConfig reducedMotion="user">
+      <PresentationShell {...nav}>
+        {slide.type === 'intro' && <IntroScreen onEnter={nav.next} />}
+        {slide.type === 'team' && <TeamScreen onSelect={nav.openMember} />}
+        {slide.type === 'member' && (
+          <MemberScreen memberIndex={slide.memberIndex} onOverview={() => nav.goTo(1)} />
+        )}
+        {slide.type === 'team-summary' && <TeamSummaryScreen />}
+        {slide.type === 'final' && <FinalScreen restart={() => nav.goTo(0)} />}
+      </PresentationShell>
+    </MotionConfig>
+  );
+}

@@ -1,0 +1,222 @@
+import { test, expect } from '@playwright/test';
+
+test('complete presentation using the keyboard and restart', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name: 'TEAM_OS', exact: true })).toBeVisible();
+  await page.keyboard.press('ArrowRight');
+  await expect(page.getByRole('heading', { name: 'Знайомтесь. Це ми.' })).toBeVisible();
+  for (const member of ['Андрій', 'Олексій', 'Марія']) {
+    await page.keyboard.press('ArrowRight');
+    await expect(page.getByRole('heading', { name: member, exact: true })).toBeVisible();
+    for (const title of [
+      'Про мене',
+      'Досвід',
+      'Чому Neoversity?',
+      'Моя ціль',
+      'Суперсила',
+      'Поза кодом',
+      'Після магістратури',
+    ]) {
+      await expect(page.getByRole('heading', { name: title, exact: true })).toBeVisible();
+    }
+  }
+  await page.keyboard.press('ArrowRight');
+  await expect(
+    page.getByRole('heading', { name: 'Різні історії. Спільний напрям.' }),
+  ).toBeVisible();
+  await page.keyboard.press('Space');
+  await expect(page.getByRole('heading', { name: 'Далі — більше.' })).toBeVisible();
+  await page.getByRole('button', { name: 'Почати спочатку' }).click();
+  await expect(page.getByRole('heading', { name: 'TEAM_OS', exact: true })).toBeVisible();
+});
+
+test('member selection, Escape, Home, End, previous, and focused Space', async ({ page }) => {
+  await page.goto('/');
+  const enter = page.getByRole('button', { name: 'Познайомитися' });
+  await enter.focus();
+  await page.keyboard.press('Space');
+  await expect(page.getByRole('heading', { name: 'Знайомтесь. Це ми.' })).toBeVisible();
+  await page.getByRole('button', { name: /Познайомитися з Марія/ }).click();
+  await expect(page.getByRole('heading', { name: 'Марія', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Про мене', exact: true })).toBeVisible();
+  await page.keyboard.press('ArrowLeft');
+  await expect(page.getByRole('heading', { name: 'Олексій', exact: true })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('heading', { name: 'Знайомтесь. Це ми.' })).toBeVisible();
+  await page.keyboard.press('End');
+  await expect(page.getByRole('heading', { name: 'Далі — більше.' })).toBeVisible();
+  await page.keyboard.press('Home');
+  await expect(page.getByRole('heading', { name: 'TEAM_OS', exact: true })).toBeVisible();
+});
+
+for (const viewport of [
+  { width: 1920, height: 1080 },
+  { width: 1280, height: 720 },
+  { width: 768, height: 1024 },
+  { width: 390, height: 844 },
+]) {
+  test(`screens fit viewport at ${viewport.width}x${viewport.height}`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    for (let i = 0; i < 7; i++) {
+      await expect(page.getByLabel(`Слайд ${i + 1} / 7`, { exact: true })).toBeVisible();
+      await expect(page.locator('main')).toBeVisible();
+      await expect(page.locator('.slide > section')).toBeVisible();
+      await expect
+        .poll(async () =>
+          page.evaluate(() => {
+            const main = document.querySelector('main')!.getBoundingClientRect();
+            const screen = document.querySelector('.slide > section')!.getBoundingClientRect();
+            return screen.top >= main.top - 1 && screen.bottom <= main.bottom + 1;
+          }),
+        )
+        .toBe(true);
+      const cards = page.locator('.profile-answer');
+      if (await cards.count()) {
+        await expect(cards).toHaveCount(7);
+        for (const card of await cards.all()) {
+          await expect(card).toBeVisible();
+          const rect = await card.boundingBox();
+          const main = await page.locator('main').boundingBox();
+          expect(rect!.y + rect!.height).toBeLessThanOrEqual(main!.y + main!.height + 1);
+        }
+      }
+      const bounds = await page.evaluate(() => ({
+        width: document.documentElement.scrollWidth,
+        height: document.documentElement.scrollHeight,
+        innerWidth,
+        innerHeight,
+      }));
+      expect(bounds.width).toBeLessThanOrEqual(bounds.innerWidth);
+      expect(bounds.height).toBeLessThanOrEqual(bounds.innerHeight);
+      await page.keyboard.press('ArrowRight');
+    }
+  });
+}
+
+test('overview scales to ten members without component changes', async ({ page }) => {
+  await page.route('**/src/data/team.ts', async (route) => {
+    const response = await route.fetch();
+    const original = await response.text();
+    await route.fulfill({
+      response,
+      body:
+        original +
+        '\nteam.push(...Array.from({length: 7}, (_, i) => ({...team[i % 3], id: "extra-" + i, name: team[i % 3].name + " " + (i + 2)})));',
+    });
+  });
+  for (const viewport of [
+    { width: 1920, height: 1080 },
+    { width: 1280, height: 720 },
+    { width: 390, height: 844 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    await expect(page.getByRole('heading', { name: 'TEAM_OS', exact: true })).toBeVisible();
+    await page.getByRole('button', { name: 'Познайомитися', exact: true }).click();
+    await expect(page.locator('.member-card')).toHaveCount(10);
+    const bounds = await page.evaluate(() => {
+      const main = document.querySelector('main')!.getBoundingClientRect();
+      const grid = document.querySelector('.member-grid')!.getBoundingClientRect();
+      return {
+        fits: grid.top >= main.top && grid.bottom <= main.bottom,
+        width: document.documentElement.scrollWidth,
+        innerWidth,
+      };
+    });
+    expect(bounds.fits).toBe(true);
+    expect(bounds.width).toBeLessThanOrEqual(bounds.innerWidth);
+  }
+});
+
+test('capture screens and report runtime errors', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await page.goto('/');
+  await page.screenshot({ path: 'test-results/intro-desktop.png' });
+  await page.keyboard.press('ArrowRight');
+  await expect(page.getByRole('heading', { name: 'Знайомтесь. Це ми.' })).toBeVisible();
+  await page.screenshot({ path: 'test-results/team-desktop.png' });
+  await page.keyboard.press('ArrowRight');
+  await expect(page.getByRole('heading', { name: 'Андрій', exact: true })).toBeVisible();
+  await page.screenshot({ path: 'test-results/profile-desktop.png' });
+  await expect(page.getByRole('heading', { name: 'Про мене', exact: true })).toBeVisible();
+  await page.screenshot({ path: 'test-results/answer-desktop.png' });
+  await page.keyboard.press('End');
+  await page.keyboard.press('ArrowLeft');
+  await expect(
+    page.getByRole('heading', { name: 'Різні історії. Спільний напрям.' }),
+  ).toBeVisible();
+  await page.screenshot({ path: 'test-results/summary-desktop.png' });
+  await page.keyboard.press('End');
+  await expect(page.getByRole('heading', { name: 'Далі — більше.' })).toBeVisible();
+  await page.screenshot({ path: 'test-results/final-desktop.png' });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.keyboard.press('Home');
+  await expect(page.locator('.intro-title')).toBeVisible();
+  await page.screenshot({ path: 'test-results/intro-mobile.png' });
+  await page.keyboard.press('ArrowRight');
+  await expect(page.getByRole('heading', { name: 'Знайомтесь. Це ми.' })).toBeVisible();
+  await page.screenshot({ path: 'test-results/team-mobile.png' });
+  expect(errors).toEqual([]);
+});
+
+test('normal motion, boot readiness, focus, and button navigation', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/');
+  await expect(page.locator('.intro-title')).toBeFocused({ timeout: 5500 });
+  await expect(page.getByRole('progressbar')).toHaveCount(0);
+  await expect(page.getByText('Ініціалізація команди', { exact: false })).toHaveCount(0);
+  await page.getByRole('button', { name: 'Познайомитися', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Знайомтесь. Це ми.' })).toBeFocused();
+  await page.getByRole('button', { name: /Познайомитися з Андрій/ }).click();
+  await expect(page.getByRole('heading', { name: 'Андрій', exact: true })).toBeFocused();
+  await expect(page.getByRole('heading', { name: 'Чому Neoversity?', exact: true })).toBeVisible();
+  await page.keyboard.press('ArrowRight');
+  await expect(page.getByRole('heading', { name: 'Олексій', exact: true })).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('heading', { name: 'Знайомтесь. Це ми.' })).toBeFocused();
+  await page.keyboard.press('End');
+  await expect(page.getByRole('heading', { name: 'Далі — більше.' })).toBeFocused();
+  await page.locator('.nav-arrow').click();
+  await expect(
+    page.getByRole('heading', { name: 'Різні історії. Спільний напрям.' }),
+  ).toBeFocused();
+  await page.locator('.nav-next').click();
+  await expect(page.getByRole('heading', { name: 'Далі — більше.' })).toBeFocused();
+});
+
+test('portrait crops and an immediately skippable initial loader', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/');
+  await expect(page.getByRole('progressbar', { name: 'Ініціалізація команди' })).toBeVisible();
+  await page.getByRole('button', { name: 'Познайомитися', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Знайомтесь. Це ми.' })).toBeVisible();
+  await page.getByRole('button', { name: /Познайомитися з Андрій/ }).click();
+  await expect(page.getByRole('heading', { name: 'Андрій', exact: true })).toBeFocused();
+  for (const viewport of [
+    { width: 1920, height: 1080 },
+    { width: 1280, height: 720 },
+    { width: 390, height: 844 },
+  ]) {
+    await page.setViewportSize(viewport);
+    const portrait = await page.locator('.profile-identity .avatar').boundingBox();
+    expect(portrait!.width / portrait!.height).toBeCloseTo(0.75, 2);
+  }
+});
+
+test('intro has one entry action and the footer has one navigation group', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.intro-title')).toBeVisible();
+  await expect(page.locator('.boot-panel')).toHaveCount(0);
+  await expect(page.locator('.chapter-nav')).toHaveCount(0);
+  await expect(page.locator('.shell-footer button')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Познайомитися', exact: true })).toHaveCount(1);
+  await page.getByRole('button', { name: 'Познайомитися', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Знайомтесь. Це ми.' })).toBeVisible();
+  await expect(page.locator('.shell-footer button')).toHaveCount(2);
+  await page.locator('.nav-next').focus();
+  await page.keyboard.press('Space');
+  await expect(page.getByRole('heading', { name: 'Андрій', exact: true })).toBeVisible();
+});
