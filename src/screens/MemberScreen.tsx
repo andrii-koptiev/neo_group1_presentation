@@ -11,7 +11,6 @@ export function MemberScreen({
   onOverview: () => void;
 }) {
   const member = team[memberIndex];
-  const introDetails = member.intro.split(' · ');
 
   return (
     <section className={`member-screen member-card-page accent-${member.accent}`}>
@@ -38,9 +37,9 @@ export function MemberScreen({
             <MapPin size={15} />
             {member.location}
           </p>
-          <div className="member-tags" aria-label="Коротко про учасника">
-            {introDetails.map((detail) => (
-              <span key={detail}>{detail}</span>
+          <div className="member-tags" aria-label={content.profile.technologiesLabel}>
+            {member.technologies.map((technology) => (
+              <span key={technology}>{technology}</span>
             ))}
           </div>
         </div>

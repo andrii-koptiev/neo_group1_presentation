@@ -50,6 +50,8 @@ test('member selection, Escape, Home, End, previous, and focused Space', async (
 });
 
 for (const viewport of [
+  { width: 3440, height: 1440 },
+  { width: 3840, height: 2160 },
   { width: 1920, height: 1080 },
   { width: 1280, height: 720 },
   { width: 768, height: 1024 },
@@ -79,6 +81,9 @@ for (const viewport of [
           const rect = await card.boundingBox();
           const main = await page.locator('main').boundingBox();
           expect(rect!.y + rect!.height).toBeLessThanOrEqual(main!.y + main!.height + 1);
+          const copy = await card.locator('.answer-copy').boundingBox();
+          expect(copy!.y).toBeGreaterThanOrEqual(rect!.y);
+          expect(copy!.y + copy!.height).toBeLessThanOrEqual(rect!.y + rect!.height + 1);
         }
       }
       const bounds = await page.evaluate(() => ({
@@ -238,6 +243,14 @@ test('member card follows the reference hierarchy with all seven topics visible'
   await expect(page.locator('.member-story')).toBeVisible();
   await expect(page.locator('.member-details .profile-answer')).toHaveCount(4);
   await expect(page.locator('.member-future')).toBeVisible();
+  await expect(page.locator('.member-tags span')).toHaveText([
+    'TypeScript',
+    'React',
+    'Node.js',
+    'PostgreSQL',
+    'Docker',
+    'AWS',
+  ]);
   const name = await page.locator('.member-hero h1').boundingBox();
   const portrait = await page.locator('.profile-identity .avatar').boundingBox();
   const story = await page.locator('.member-story').boundingBox();
@@ -245,4 +258,10 @@ test('member card follows the reference hierarchy with all seven topics visible'
   expect(portrait!.x).toBeGreaterThan(name!.x + name!.width);
   expect(story!.y).toBeGreaterThan(name!.y + name!.height);
   expect(future!.y).toBeGreaterThan(story!.y + story!.height);
+  await page.setViewportSize({ width: 3440, height: 1440 });
+  const stage = await page.locator('main').boundingBox();
+  expect(stage!.width).toBeLessThanOrEqual(1560);
+  expect(stage!.height).toBeLessThanOrEqual(840);
+  expect(stage!.x).toBeCloseTo((3440 - stage!.width) / 2, 0);
+  await page.screenshot({ path: 'test-results/profile-ultrawide.png' });
 });

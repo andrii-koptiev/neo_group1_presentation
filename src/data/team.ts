@@ -4,6 +4,7 @@ export interface TeamMember {
   role: string;
   location: string;
   intro: string;
+  technologies: string[];
   about: string;
   experience: string;
   whyNeoversity: string;
@@ -24,6 +25,7 @@ export const team: TeamMember[] = [
     role: 'Fullstack Engineer',
     location: 'Миколаїв → Флорида, США',
     intro: '5 років у розробці · Спорт і книги',
+    technologies: ['TypeScript', 'React', 'Node.js', 'PostgreSQL', 'Docker', 'AWS'],
     accent: 'cyan',
     about:
       'Родом із Миколаєва. Зараз живу у Флориді. Люблю перетворювати ідеї на працюючі продукти.',
@@ -43,6 +45,7 @@ export const team: TeamMember[] = [
     role: 'Backend Engineer',
     location: 'Київ → Варшава',
     intro: '6 років у розробці · Подорожі й велосипед',
+    technologies: ['Python', 'FastAPI', 'PostgreSQL', 'Redis', 'Docker', 'Kafka'],
     accent: 'purple',
     about:
       'Інженер-програміст із Києва, зараз живу у Варшаві. Цікавлюся розподіленими системами та AI.',
@@ -61,6 +64,7 @@ export const team: TeamMember[] = [
     role: 'Frontend Engineer',
     location: 'Львів → Берлін',
     intro: '4 роки у розробці · Фото й походи',
+    technologies: ['TypeScript', 'React', 'Next.js', 'CSS', 'Figma', 'Vitest'],
     accent: 'lime',
     about:
       'Фронтенд-розробниця зі Львова, зараз живу в Берліні. Люблю поєднувати технології та візуальний досвід.',
@@ -152,6 +156,7 @@ export const content = {
     demo: 'Зараз — приклади. Далі — наші історії.',
   },
   profile: {
+    technologiesLabel: 'Основні технології',
     label: 'ПРОФІЛЬ УЧАСНИКА',
     start: 'Моя історія',
     overview: 'Уся команда',

@@ -3,7 +3,7 @@
   color: #f1f2f3;
   background: #050507;
   font-synthesis: none;
-  --cyan: #a4f8e5;
+  --cyan: #83e5ed;
   --muted: #82858f;
   --line: rgba(255, 255, 255, 0.11);
   --mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
@@ -81,7 +81,7 @@ button {
   display: flex;
   flex-direction: column;
   padding: 0 clamp(24px, 5.8vw, 112px);
-  background: #08090b;
+  background: #090b10;
   isolation: isolate;
 }
 .ambient {
@@ -201,6 +201,17 @@ main {
   min-height: 0;
   position: relative;
   display: flex;
+}
+.shell-header,
+main,
+.shell-footer {
+  width: 100%;
+  max-width: 1560px;
+  margin-inline: auto;
+}
+main {
+  max-height: 840px;
+  margin-block: auto;
 }
 .slide {
   width: 100%;
@@ -521,7 +532,7 @@ kbd {
   --accent: #c3a6ee;
 }
 .accent-cyan {
-  --accent: #a4f8e5;
+  --accent: var(--cyan);
 }
 .accent-lime {
   --accent: #d2e5ad;
@@ -2660,7 +2671,7 @@ kbd {
       color-mix(in srgb, var(--accent) 12%, transparent),
       transparent 27%
     ),
-    linear-gradient(115deg, #0e1114 0%, #090a0d 68%);
+    linear-gradient(115deg, #131c29 0%, #101420 68%);
   position: relative;
   overflow: hidden;
 }
@@ -2720,11 +2731,11 @@ kbd {
 .member-tags span {
   padding: 4px 8px;
   border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
-  border-radius: 999px;
+  border-radius: 6px;
   background: color-mix(in srgb, var(--accent) 5%, transparent);
-  color: #aeb7bd;
+  color: #c8dfe8;
   font-family: var(--mono);
-  font-size: clamp(7px, 0.55vw, 10px);
+  font-size: clamp(10px, 0.75vw, 13px);
 }
 .member-card-page .profile-identity {
   min-height: 0;
@@ -2834,8 +2845,8 @@ kbd {
 .member-card-page .answer-copy {
   max-width: none;
   margin-top: 7px;
-  color: #aeb5be;
-  font-size: clamp(11px, 0.84vw, 16px);
+  color: #bdc9d8;
+  font-size: clamp(13px, 1vw, 18px);
   font-weight: 400;
   line-height: 1.42;
   letter-spacing: -0.01em;
@@ -2846,7 +2857,7 @@ kbd {
   grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.85fr);
   border: 1px solid #ffffff12;
   border-radius: 9px;
-  background: linear-gradient(110deg, color-mix(in srgb, var(--accent) 7%, #0b0d10), #0a0b0e 72%);
+  background: linear-gradient(110deg, #15232b, #111725 72%);
   overflow: hidden;
 }
 .member-story .profile-answer {
@@ -2876,7 +2887,7 @@ kbd {
   padding: 10px clamp(10px, 1.1vw, 20px);
   border: 1px solid #ffffff10;
   border-radius: 8px;
-  background: #0b0d10c9;
+  background: linear-gradient(145deg, #151c29, #10151f);
 }
 .member-future {
   min-height: 62px;
@@ -2969,12 +2980,12 @@ kbd {
   }
   .member-card-page .answer-copy {
     margin-top: 4px;
-    font-size: 10.5px;
+    font-size: 13px;
     line-height: 1.34;
   }
   .member-story .profile-answer:first-child .answer-copy,
   .member-future .answer-copy {
-    font-size: 12px;
+    font-size: 14px;
   }
   .member-future {
     min-height: 49px;
@@ -3002,7 +3013,7 @@ kbd {
 @media (max-width: 600px) {
   .member-card-page {
     padding: 6px 0;
-    grid-template-rows: auto 112px minmax(0, 1fr);
+    grid-template-rows: auto 138px minmax(0, 1fr);
     gap: 7px;
   }
   .member-card-page .member-top > span,
@@ -3022,11 +3033,11 @@ kbd {
   }
   .member-role {
     margin-top: 4px;
-    font-size: 10px;
+    font-size: 12px;
   }
   .member-location {
     margin-top: 4px;
-    font-size: 7px;
+    font-size: 9px;
   }
   .member-location svg {
     width: 10px;
@@ -3037,14 +3048,14 @@ kbd {
   }
   .member-tags span {
     padding: 2px 4px;
-    font-size: 5.5px;
+    font-size: 8px;
   }
   .member-card-page .profile-identity .avatar--large {
     width: 72px;
     height: 96px;
   }
   .member-card-content {
-    grid-template-rows: minmax(0, 1.05fr) minmax(0, 1.45fr) auto;
+    grid-template-rows: minmax(0, 1fr) minmax(0, 2fr) auto;
     gap: 6px;
   }
   .member-story {
@@ -3067,12 +3078,12 @@ kbd {
     font-size: 5.5px;
   }
   .member-card-page .answer-title {
-    font-size: 9px;
+    font-size: 11px;
   }
   .member-card-page .answer-copy,
   .member-story .profile-answer:first-child .answer-copy {
     margin-top: 4px;
-    font-size: 8px;
+    font-size: 11px;
     line-height: 1.3;
   }
   .member-future {
@@ -3085,7 +3096,7 @@ kbd {
   }
   .member-future .answer-copy {
     margin-top: 3px;
-    font-size: 9px;
+    font-size: 11px;
     line-height: 1.25;
   }
   .member-future-arrow {
