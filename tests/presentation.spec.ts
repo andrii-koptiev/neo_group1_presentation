@@ -252,11 +252,11 @@ test('member card follows the reference hierarchy with all seven topics visible'
   await expect(page.locator('.member-future')).toBeVisible();
   await expect(page.locator('.member-tags span')).toHaveText([
     'React',
-    'TypeScript',
-    'GraphQL',
     'Next.js',
+    'TypeScript',
+    'C#',
+    '.NET',
     'Azure',
-    'Claude API',
   ]);
   const photo = page.locator('.profile-identity img');
   await expect(photo).toBeVisible();
