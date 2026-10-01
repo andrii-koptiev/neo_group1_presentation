@@ -1,7 +1,6 @@
-import { ArrowLeft, MapPin } from 'lucide-react';
-import { content, profileSections, team } from '../data/team';
+import { ArrowLeft, ArrowRight, MapPin } from 'lucide-react';
+import { content, team } from '../data/team';
 import { Avatar } from '../components/Avatar';
-import { CodeAccent } from '../components/CodeAccent';
 import { ProfileSection } from '../components/ProfileSection';
 
 export function MemberScreen({
@@ -12,8 +11,10 @@ export function MemberScreen({
   onOverview: () => void;
 }) {
   const member = team[memberIndex];
+  const introDetails = member.intro.split(' · ');
+
   return (
-    <section className={`member-screen member-screen--snapshot accent-${member.accent}`}>
+    <section className={`member-screen member-card-page accent-${member.accent}`}>
       <div className="member-top">
         <button className="text-button" onClick={onOverview}>
           <ArrowLeft size={15} />
@@ -24,26 +25,64 @@ export function MemberScreen({
           {content.profile.label} / {String(memberIndex + 1).padStart(2, '0')}
         </span>
       </div>
-      <div className="profile-layout">
+
+      <div className="member-hero">
+        <div className="member-hero-copy">
+          <p className="member-command mono">$ whoami</p>
+          <h1 aria-label={member.name}>
+            {member.name}
+            <span className="title-dot">.</span>
+          </h1>
+          <p className="member-role">{member.role}</p>
+          <p className="member-location">
+            <MapPin size={15} />
+            {member.location}
+          </p>
+          <div className="member-tags" aria-label="Коротко про учасника">
+            {introDetails.map((detail) => (
+              <span key={detail}>{detail}</span>
+            ))}
+          </div>
+        </div>
         <div className="profile-identity">
           <Avatar member={member} large />
-          <div className="identity-caption">
-            <h1 aria-label={member.name}>
-              {member.name}
-              <span className="title-dot">.</span>
-            </h1>
-            <p className="identity-role">{member.role}</p>
-            <p className="identity-location">
-              <MapPin size={15} />
-              {member.location}
-            </p>
-          </div>
-          <CodeAccent member={member} />
         </div>
-        <div className="profile-content profile-snapshot">
-          {profileSections.map((section, index) => (
-            <ProfileSection key={section.key} member={member} index={index} />
+      </div>
+
+      <div className="member-journey" aria-label="Професійний шлях">
+        <div>
+          <span className="mono">ДО NEOVERSITY</span>
+          <strong>{member.role}</strong>
+        </div>
+        <span className="journey-line">
+          <ArrowRight size={14} />
+        </span>
+        <div>
+          <span className="mono">ЗАРАЗ</span>
+          <strong>Neoversity · AI / ML</strong>
+        </div>
+        <span className="journey-line">
+          <ArrowRight size={14} />
+        </span>
+        <div>
+          <span className="mono">ДАЛІ</span>
+          <strong>AI / ML</strong>
+        </div>
+      </div>
+
+      <div className="member-card-content">
+        <div className="member-story">
+          <ProfileSection member={member} index={0} />
+          <ProfileSection member={member} index={1} />
+        </div>
+        <div className="member-details">
+          {[2, 3, 4, 5].map((index) => (
+            <ProfileSection key={index} member={member} index={index} />
           ))}
+        </div>
+        <div className="member-future">
+          <ProfileSection member={member} index={6} />
+          <ArrowRight className="member-future-arrow" size={30} aria-hidden="true" />
         </div>
       </div>
     </section>

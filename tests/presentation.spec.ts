@@ -159,6 +159,9 @@ test('capture screens and report runtime errors', async ({ page }) => {
   await page.keyboard.press('ArrowRight');
   await expect(page.getByRole('heading', { name: 'Знайомтесь. Це ми.' })).toBeVisible();
   await page.screenshot({ path: 'test-results/team-mobile.png' });
+  await page.getByRole('button', { name: /Познайомитися з Андрій/ }).click();
+  await expect(page.getByRole('heading', { name: 'Андрій', exact: true })).toBeVisible();
+  await page.screenshot({ path: 'test-results/profile-mobile.png' });
   expect(errors).toEqual([]);
 });
 
@@ -219,4 +222,27 @@ test('intro has one entry action and the footer has one navigation group', async
   await page.locator('.nav-next').focus();
   await page.keyboard.press('Space');
   await expect(page.getByRole('heading', { name: 'Андрій', exact: true })).toBeVisible();
+});
+
+test('member card follows the reference hierarchy with all seven topics visible', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Познайомитися', exact: true }).click();
+  await page.getByRole('button', { name: /Познайомитися з Андрій/ }).click();
+  await expect(page.getByRole('heading', { name: 'Андрій', exact: true })).toBeVisible();
+  await expect(page.locator('.member-hero')).toBeVisible();
+  await expect(page.locator('.member-journey')).toBeVisible();
+  await expect(page.locator('.profile-answer')).toHaveCount(7);
+  await expect(page.locator('.member-story')).toBeVisible();
+  await expect(page.locator('.member-details .profile-answer')).toHaveCount(4);
+  await expect(page.locator('.member-future')).toBeVisible();
+  const name = await page.locator('.member-hero h1').boundingBox();
+  const portrait = await page.locator('.profile-identity .avatar').boundingBox();
+  const story = await page.locator('.member-story').boundingBox();
+  const future = await page.locator('.member-future').boundingBox();
+  expect(portrait!.x).toBeGreaterThan(name!.x + name!.width);
+  expect(story!.y).toBeGreaterThan(name!.y + name!.height);
+  expect(future!.y).toBeGreaterThan(story!.y + story!.height);
 });
