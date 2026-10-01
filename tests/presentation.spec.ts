@@ -14,7 +14,7 @@ test('complete presentation using the keyboard and restart', async ({ page }) =>
       'Чому Neoversity?',
       'Моя ціль',
       'Суперсила',
-      'Поза кодом',
+      'Чим можу допомогти',
       'Після магістратури',
     ]) {
       await expect(page.getByRole('heading', { name: title, exact: true })).toBeVisible();
@@ -261,7 +261,12 @@ test('member card follows the reference hierarchy with all seven topics visible'
   await page.setViewportSize({ width: 3440, height: 1440 });
   const stage = await page.locator('main').boundingBox();
   expect(stage!.width).toBeLessThanOrEqual(1560);
-  expect(stage!.height).toBeLessThanOrEqual(840);
+  const header = await page.locator('.shell-header').boundingBox();
+  const footer = await page.locator('.shell-footer').boundingBox();
+  const profile = await page.locator('.member-card-page').boundingBox();
+  expect(stage!.y).toBeCloseTo(header!.y + header!.height, 0);
+  expect(stage!.y + stage!.height).toBeCloseTo(footer!.y, 0);
+  expect(profile!.height).toBeCloseTo(stage!.height, 0);
   expect(stage!.x).toBeCloseTo((3440 - stage!.width) / 2, 0);
   await page.screenshot({ path: 'test-results/profile-ultrawide.png' });
 });

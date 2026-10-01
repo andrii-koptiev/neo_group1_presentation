@@ -209,10 +209,6 @@ main,
   max-width: 1560px;
   margin-inline: auto;
 }
-main {
-  max-height: 840px;
-  margin-block: auto;
-}
 .slide {
   width: 100%;
   height: 100%;
