@@ -70,7 +70,7 @@ export function MemberScreen({
         </span>
         <div>
           <span className="mono">ДАЛІ</span>
-          <strong>AI / ML</strong>
+          <strong>{member.nextStep ?? content.profile.upgrade}</strong>
         </div>
       </div>
 
