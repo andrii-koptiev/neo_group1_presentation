@@ -4,7 +4,9 @@ import { content, type TeamMember } from '../data/team';
 export function Avatar({ member, large = false }: { member: TeamMember; large?: boolean }) {
   const [failed, setFailed] = useState(false);
   return (
-    <div className={`avatar avatar--${member.accent} ${large ? 'avatar--large' : ''}`}>
+    <div
+      className={`avatar avatar--${member.accent} ${large ? 'avatar--large' : ''} ${member.image && !failed && member.imageStyle === 'cutout' ? 'avatar--cutout' : ''}`}
+    >
       {member.image && !failed ? (
         <img
           src={member.image}

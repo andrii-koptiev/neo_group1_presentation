@@ -1,0 +1,6 @@
+Tool: built-in image_gen, edit mode, transparent_background=true.
+Output: public/photos/andrii-portrait.png
+
+Use case: background-extraction, identity-preserve.
+Edit target: supplied real photograph of Andrii. Create a polished photorealistic presentation portrait cutout, genuine alpha-transparent background. Remove all buildings, railing, plants and sky. Preserve the exact recognizable face, age, natural facial proportions, eyes, expression and body build; do not beautify into another person or slim him. Retain the navy blue crew-neck shirt. Correct the strong cool cyan cast to natural warm-neutral skin tones and clean navy cloth. Soft professional studio lighting, realistic skin texture, crisp clean silhouette edges, no painted/CG look.
+Composition: vertical 3:4 portrait, head and upper torso down to mid-chest, both shoulders fully inside the frame, head comfortably large and near top with modest headroom, shoulders at a gentle three-quarter angle and face looking at camera with the existing friendly relaxed smile. Subtle upright posture correction only, preserve facial identity rigorously. It will sit on the right of a dark cyan/purple slide, so neutral soft lighting with a very subtle cool rim is appropriate. No background, no gradients, no text, no frame, no cast shadow outside body. Return a transparent PNG.

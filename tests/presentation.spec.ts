@@ -251,13 +251,18 @@ test('member card follows the reference hierarchy with all seven topics visible'
   await expect(page.locator('.member-details .profile-answer')).toHaveCount(4);
   await expect(page.locator('.member-future')).toBeVisible();
   await expect(page.locator('.member-tags span')).toHaveText([
-    'TypeScript',
     'React',
-    'Node.js',
-    'PostgreSQL',
-    'Docker',
-    'AWS',
+    'TypeScript',
+    'GraphQL',
+    'Next.js',
+    'Azure',
+    'Claude API',
   ]);
+  const photo = page.locator('.profile-identity img');
+  await expect(photo).toBeVisible();
+  await expect
+    .poll(() => photo.evaluate((img: HTMLImageElement) => img.naturalWidth))
+    .toBeGreaterThan(0);
   const name = await page.locator('.member-hero h1').boundingBox();
   const portrait = await page.locator('.profile-identity .avatar').boundingBox();
   const story = await page.locator('.member-story').boundingBox();

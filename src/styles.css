@@ -576,6 +576,21 @@ kbd {
   object-fit: cover;
   object-position: center 35%;
 }
+.avatar--cutout img {
+  object-fit: contain;
+  object-position: center bottom;
+  display: block;
+}
+.avatar--cutout .avatar-caption,
+.avatar--cutout .avatar-cross {
+  display: none;
+}
+.member-card-page .profile-identity .avatar--large.avatar--cutout {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
 .avatar-art {
   position: absolute;
   inset: 0;

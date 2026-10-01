@@ -14,29 +14,36 @@ export interface TeamMember {
   afterGraduation: string;
   image?: string;
   imageAlt?: string;
+  imageStyle?: 'photo' | 'cutout';
   accent: 'cyan' | 'purple' | 'lime';
 }
 
-// Демонстраційні профілі, включно з прикладами відповідей helpOthers.
+// Андрій: професійні факти з CV; мотивація, ціль і майбутнє — чернетка з обговорення.
+// Олексій і Марія: демонстраційні профілі.
 // Замініть або додайте об’єкти — компоненти змінювати не потрібно.
 export const team: TeamMember[] = [
   {
     id: 'andrii',
     name: 'Андрій',
-    role: 'Fullstack Engineer',
-    location: 'Миколаїв → Флорида, США',
-    intro: '5 років у розробці · Спорт і книги',
-    technologies: ['TypeScript', 'React', 'Node.js', 'PostgreSQL', 'Docker', 'AWS'],
+    role: 'Senior Frontend Developer',
+    location: 'Миколаїв → Сарасота, США',
+    intro: '4+ роки у розробці · Фінтех і AI',
+    technologies: ['React', 'TypeScript', 'GraphQL', 'Next.js', 'Azure', 'Claude API'],
+    image: 'photos/andrii-portrait.png',
+    imageAlt: 'Портрет Андрія Коптєва',
+    imageStyle: 'cutout',
     accent: 'cyan',
     about:
-      'Родом із Миколаєва. Зараз живу у Флориді. Люблю перетворювати ідеї на працюючі продукти.',
-    experience: '5 років у розробці програмного забезпечення. Зараз працюю Fullstack Engineer.',
+      'Родом із Миколаєва, живу в Сарасоті, Флорида. За першою освітою — магістр економіки підприємства. Зараз створюю фінтех-продукти.',
+    experience:
+      '4+ роки у розробці. Senior Frontend Developer в akoyaGO: фінтех, платіжні системи та інтеграція Claude API.',
     whyNeoversity:
       'Хочу глибше зрозуміти AI, машинне навчання та комп’ютерні науки — і вийти за межі використання готових AI-інструментів.',
     goal: 'Створити готове до продакшену рішення на основі LLM, яке можна використати в реальному продукті.',
-    superpower: 'Перетворювати нечіткі ідеї та вимоги на працююче програмне забезпечення.',
+    superpower:
+      'Поєдную розуміння бізнесу з розробкою. Допомагаю перетворити складні вимоги на зрозуміле рішення.',
     helpOthers:
-      'Можу допомогти з React і Node.js, обговорити архітектуру застосунку та поділитися досвідом розробки.',
+      'Пояснити JavaScript і React, зробити рев’ю коду, поділитися досвідом AI-інтеграцій. Викладав і менторив у GoIT.',
     afterGraduation:
       'Створювати AI-системи для реальних продуктів і глибше працювати з прикладним AI / ML.',
   },
@@ -154,7 +161,7 @@ export const content = {
     coffeeLabel: 'Запустити кавову перерву',
     coffeeResponse: 'Каву заварено ☕ Тепер можна й нейромережу навчити.',
   },
-  sample: 'Демонстраційні профілі',
+  sample: 'Олексій і Марія — демопрофілі',
   visual: { ai: 'AI', human: '× ЛЮДИ', avatarLabel: 'ЛЮДИНА / AI', release: 'NEXT_RELEASE' },
   intro: {
     eyebrow: 'НОВА КОМАНДА. НАСТУПНА ВЕРСІЯ.',
