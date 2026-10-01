@@ -1,11 +1,13 @@
 import { ArrowDown, Check, Code2, Sparkles } from 'lucide-react';
 import { content, team } from '../data/team';
+import { DevNote } from '../components/DevNote';
 export function TeamSummaryScreen() {
   const c = content.summary;
   return (
     <section className="summary-screen">
       <p className="eyebrow">{c.eyebrow}</p>
       <h1>{c.title}</h1>
+      <DevNote {...content.dev.summary} />
       <div className="summary-layout">
         <div className="summary-people">
           <span className="summary-count">

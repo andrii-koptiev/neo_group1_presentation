@@ -735,6 +735,86 @@ kbd {
 .member-screen {
   width: 100%;
 }
+.dev-note {
+  margin-top: 18px;
+  padding: 10px 14px;
+  border-left: 2px solid #83e5ed55;
+  background: linear-gradient(90deg, #83e5ed08, transparent);
+  max-width: 640px;
+}
+.dev-command {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: clamp(11px, 0.95vw, 16px);
+  color: #d1e5ee;
+}
+.dev-command code {
+  font: inherit;
+  overflow-wrap: anywhere;
+}
+.dev-prompt,
+.profile-branch {
+  color: var(--cyan);
+}
+.dev-note p {
+  margin-top: 6px;
+  font-size: clamp(10px, 0.8vw, 14px);
+  line-height: 1.5;
+  color: #9baebd;
+}
+.final-screen .dev-note {
+  margin-inline: auto;
+  width: fit-content;
+  text-align: left;
+}
+.coffee-break {
+  margin-top: 14px;
+}
+.coffee-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  background: #b39aff0a;
+  border: 1px solid #b39aff2b;
+  border-radius: 6px;
+  color: #cabbed;
+  font-size: 11px;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+.coffee-button:hover,
+.coffee-button[aria-pressed='true'] {
+  background: #b39aff18;
+  border-color: #b39aff66;
+}
+.coffee-break .final-manifesto {
+  margin-top: 8px;
+  min-height: 2.8em;
+  line-height: 1.4;
+}
+@media (max-height: 760px), (max-width: 600px) {
+  .dev-note {
+    margin-top: 10px;
+    padding: 7px 10px;
+  }
+  .dev-command {
+    font-size: 10px;
+  }
+  .dev-note p {
+    margin-top: 4px;
+    font-size: 10px;
+  }
+  .coffee-break {
+    margin-top: 8px;
+  }
+  .coffee-button {
+    padding: 5px 9px;
+    font-size: 10px;
+  }
+}
 .member-top {
   display: flex;
   align-items: center;
@@ -1556,10 +1636,17 @@ kbd {
   }
   .final-screen h1 {
     font-size: 64px;
+    margin-top: 10px;
   }
   .release-panel {
-    margin-top: 20px;
-    padding: 19px 24px;
+    margin-top: 12px;
+    padding: 14px 24px;
+  }
+  .release-row {
+    margin-top: 12px;
+  }
+  .coffee-break .final-manifesto {
+    min-height: 1.4em;
   }
   .release-header {
     padding-bottom: 15px;

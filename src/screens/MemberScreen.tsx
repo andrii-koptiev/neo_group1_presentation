@@ -21,13 +21,18 @@ export function MemberScreen({
           <kbd>esc</kbd>
         </button>
         <span className="mono muted">
-          {content.profile.label} / {String(memberIndex + 1).padStart(2, '0')}
+          <span className="profile-branch">
+            {content.dev.profileBranch}
+            {member.id}
+          </span>
+          {' / '}
+          {String(memberIndex + 1).padStart(2, '0')}
         </span>
       </div>
 
       <div className="member-hero">
         <div className="member-hero-copy">
-          <p className="member-command mono">$ whoami</p>
+          <p className="member-command mono">$ {content.dev.profileCommand}</p>
           <h1 aria-label={member.name}>
             {member.name}
             <span className="title-dot">.</span>

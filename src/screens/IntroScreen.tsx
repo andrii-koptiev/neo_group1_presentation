@@ -3,6 +3,7 @@ import { useReducedMotion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { content } from '../data/team';
 import { InitialLoader } from '../components/InitialLoader';
+import { DevNote } from '../components/DevNote';
 
 export function IntroScreen({ onEnter }: { onEnter: () => void }) {
   const reduced = useReducedMotion();
@@ -38,6 +39,7 @@ export function IntroScreen({ onEnter }: { onEnter: () => void }) {
           <span className="title-dot">.</span>
         </h1>
         <p className="intro-subtitle">{content.intro.subtitle}</p>
+        <DevNote {...content.dev.intro} />
         <button className="primary-button" onClick={onEnter}>
           {content.intro.enter}
           <ArrowRight size={21} />

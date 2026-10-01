@@ -131,6 +131,29 @@ export const content = {
   institution: 'NEOVERSITY',
   program: 'AI & MACHINE LEARNING',
   edition: 'ЗНАЙОМСТВО З КОМАНДОЮ',
+  dev: {
+    intro: {
+      command: 'git switch -c ai-ml',
+      response: 'Нова гілка нашої історії. Досвід беремо із собою.',
+    },
+    team: {
+      command: 'ls ./team',
+      response: 'За кожним профілем — людина. README розкажемо наживо.',
+    },
+    profileCommand: 'whoami',
+    profileBranch: 'git switch team/',
+    summary: {
+      command: 'git merge curiosity practice',
+      response: 'Конфлікти? Обговоримо разом. Так і працює команда.',
+    },
+    final: {
+      command: 'git commit -m "це лише початок"',
+      response: 'Навчання триває. Найцікавіші зміни ще попереду.',
+    },
+    coffeeCommand: 'npm run coffee',
+    coffeeLabel: 'Запустити кавову перерву',
+    coffeeResponse: 'Каву заварено ☕ Тепер можна й нейромережу навчити.',
+  },
   sample: 'Демонстраційні профілі',
   visual: { ai: 'AI', human: '× ЛЮДИ', avatarLabel: 'ЛЮДИНА / AI', release: 'NEXT_RELEASE' },
   intro: {

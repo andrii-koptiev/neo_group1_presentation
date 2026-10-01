@@ -6,7 +6,7 @@ export function TeamScreen({ onSelect }: { onSelect: (index: number) => void }) 
     <section className={`team-screen ${team.length > 4 ? 'team-screen--many' : ''}`}>
       <div className="screen-heading">
         <div>
-          <p className="eyebrow">{content.overview.eyebrow}</p>
+          <p className="eyebrow mono">$ {content.dev.team.command}</p>
           <h1>{content.overview.title}</h1>
           <p className="screen-subtitle">{content.overview.subtitle}</p>
         </div>
@@ -29,7 +29,7 @@ export function TeamScreen({ onSelect }: { onSelect: (index: number) => void }) 
       <div className="team-note">
         <span>
           <span className="tiny-cross">+</span>
-          {content.overview.select}
+          {content.dev.team.response}
         </span>
         <span className="mono">{content.sample}</span>
       </div>

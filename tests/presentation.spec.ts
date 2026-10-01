@@ -26,6 +26,13 @@ test('complete presentation using the keyboard and restart', async ({ page }) =>
   ).toBeVisible();
   await page.keyboard.press('Space');
   await expect(page.getByRole('heading', { name: 'Далі — більше.' })).toBeVisible();
+  const coffee = page.getByRole('button', { name: 'Запустити кавову перерву' });
+  await coffee.focus();
+  await page.keyboard.press('Space');
+  await expect(coffee).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('status')).toContainText('Каву заварено');
+  await page.keyboard.press('Space');
+  await expect(coffee).toHaveAttribute('aria-pressed', 'false');
   await page.getByRole('button', { name: 'Почати спочатку' }).click();
   await expect(page.getByRole('heading', { name: 'TEAM_OS', exact: true })).toBeVisible();
 });
