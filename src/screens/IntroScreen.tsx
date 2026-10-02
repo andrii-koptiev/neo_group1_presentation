@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import { content } from '../data/team';
 import { InitialLoader } from '../components/InitialLoader';
 import { DevNote } from '../components/DevNote';
+import { TechnologyOrbit } from '../components/TechnologyOrbit';
 
 export function IntroScreen({ onEnter }: { onEnter: () => void }) {
   const reduced = useReducedMotion();
@@ -45,19 +46,7 @@ export function IntroScreen({ onEnter }: { onEnter: () => void }) {
           <ArrowRight size={21} />
         </button>
       </div>
-      <div className="intro-visual" aria-hidden="true">
-        <div className="orbital orbital-one" />
-        <div className="orbital orbital-two" />
-        <div className="orbital orbital-three" />
-        <div className="core-glow" />
-        <div className="core">
-          <span>{content.visual.ai}</span>
-          <span className="mono">{content.visual.human}</span>
-        </div>
-        <span className="orbital-label orbital-label--two mono">{content.intro.tag}</span>
-        <div className="orbit-dot orbit-dot--one" />
-        <div className="orbit-dot orbit-dot--two" />
-      </div>
+      <TechnologyOrbit />
     </section>
   );
 }

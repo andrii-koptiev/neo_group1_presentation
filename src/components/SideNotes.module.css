@@ -1,0 +1,182 @@
+.notes {
+  --gutter: max(clamp(24px, 5.8vw, 112px), calc((100vw - 1560px) / 2));
+  --rail-width: clamp(120px, calc(var(--gutter) - 48px), 220px);
+  display: none;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.rail {
+  position: absolute;
+  width: var(--rail-width);
+  top: 50%;
+  transform: translateY(-50%);
+  padding-block: 20px;
+}
+.compactLoop {
+  display: none;
+}
+.left {
+  left: calc((var(--gutter) - var(--rail-width)) / 2);
+}
+.right {
+  right: calc((var(--gutter) - var(--rail-width)) / 2);
+}
+.rail::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 38px;
+  height: 1px;
+  background: linear-gradient(90deg, #a688f080, transparent);
+}
+.branchIcon {
+  color: #b39bd2;
+  margin-bottom: 18px;
+}
+.label {
+  color: #a798bd;
+  font-size: 10px;
+  line-height: 1.6;
+}
+.context {
+  display: block;
+  margin-block: 12px;
+  color: #c7b9df;
+  font-size: 13px;
+}
+.command {
+  display: block;
+  font-size: 12px;
+  line-height: 1.8;
+  color: #a1dce3;
+  overflow-wrap: anywhere;
+}
+.command > span {
+  color: #a690cb;
+}
+.caption {
+  margin-top: 18px;
+  color: #b9aacd;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.track {
+  display: flex;
+  gap: 9px;
+  margin-top: 24px;
+  align-items: center;
+}
+.track span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #b192df;
+  opacity: 0.45;
+}
+.track span:first-child {
+  background: var(--cyan);
+  opacity: 0.9;
+  box-shadow: 0 0 12px #98eaf050;
+}
+.loop {
+  display: grid;
+  gap: 8px;
+  margin-block: 18px 24px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #ae9cce;
+}
+.loop code {
+  padding-left: 14px;
+}
+.loop code span {
+  color: #a7dbe4;
+}
+.loop code:nth-of-type(2) span {
+  color: #c1a4f4;
+}
+.bracket {
+  color: #9a83bb;
+  font-family: var(--mono);
+}
+.ideaButton {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  padding: 10px 0;
+  background: transparent;
+  border-top: 1px solid #b59bda30;
+  color: #cbb8e7;
+  font-size: 11px;
+  text-align: left;
+  pointer-events: auto;
+  transition: color 0.2s;
+}
+.ideaButton svg {
+  flex-shrink: 0;
+}
+.ideaButton code {
+  font: inherit;
+}
+.ideaButton:hover,
+.ideaButton:focus-visible {
+  color: var(--cyan);
+}
+.ideaButton:focus-visible {
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.thought {
+  min-height: 105px;
+  color: #b9aacd;
+  font-size: 12px;
+  line-height: 1.7;
+}
+@media (min-width: 1880px) and (min-height: 800px) {
+  .notes {
+    display: block;
+  }
+}
+@media (min-width: 1280px) and (max-width: 1879px) and (min-height: 600px) {
+  .notes {
+    display: block;
+    --rail-width: 32px;
+  }
+  .rail {
+    padding: 0;
+  }
+  .rail::before,
+  .branchIcon,
+  .label,
+  .context,
+  .caption,
+  .track,
+  .loop,
+  .ideaButton,
+  .thought {
+    display: none;
+  }
+  .command,
+  .compactLoop {
+    display: block;
+    writing-mode: vertical-rl;
+    white-space: nowrap;
+    font-size: 11px;
+    line-height: 32px;
+    letter-spacing: 0.04em;
+  }
+  .command {
+    transform: rotate(180deg);
+    color: #b49bcf;
+  }
+  .compactLoop {
+    color: #9fbaca;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ideaButton {
+    transition: none;
+  }
+}

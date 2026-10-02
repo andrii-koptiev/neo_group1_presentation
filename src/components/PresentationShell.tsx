@@ -5,6 +5,7 @@ import { content } from '../data/team';
 import type { Slide } from '../hooks/usePresentationNavigation';
 import { NavigationControls } from './NavigationControls';
 import { ProgressIndicator } from './ProgressIndicator';
+import { SideNotes } from './SideNotes';
 interface Props {
   children: ReactNode;
   slide: Slide;
@@ -50,13 +51,14 @@ export function PresentationShell({
     }
   };
   return (
-    <div className="presentation-shell">
+    <div className="presentation-shell" data-screen={slide.type}>
       <a href="#presentation" className="skip-link">
         {content.nav.skip}
       </a>
-      <div className="ambient ambient--cyan" />
-      <div className="ambient ambient--purple" />
-      <div className="background-grid" />
+      <div className="ambient ambient--cyan" aria-hidden="true" />
+      <div className="ambient ambient--purple" aria-hidden="true" />
+      <div className="background-grid" aria-hidden="true" />
+      <SideNotes key={index} slide={slide} index={index} />
       <header className="shell-header">
         <button className="brand" onClick={() => goTo(0)} aria-label={content.nav.intro}>
           <span className="brand-symbol" aria-hidden="true">
@@ -85,7 +87,7 @@ export function PresentationShell({
         </div>
       )}
       <main id="presentation" ref={mainRef}>
-        <AnimatePresence mode="wait" initial={false} custom={direction}>
+        <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             className="slide"
             key={index}

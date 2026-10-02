@@ -1,8 +1,9 @@
 import { ArrowDown, Check, Code2, Sparkles } from 'lucide-react';
-import { content, team } from '../data/team';
+import { content, getTeamRoster, team } from '../data/team';
 import { DevNote } from '../components/DevNote';
 export function TeamSummaryScreen() {
   const c = content.summary;
+  const roster = getTeamRoster();
   return (
     <section className="summary-screen">
       <p className="eyebrow">{c.eyebrow}</p>
@@ -11,10 +12,10 @@ export function TeamSummaryScreen() {
       <div className="summary-layout">
         <div className="summary-people">
           <span className="summary-count">
-            {String(team.length).padStart(2, '0')}
+            {String(roster.total).padStart(2, '0')}
             <span className="title-dot">.</span>
           </span>
-          <h2>{c.developers}</h2>
+          <h2>{c.people}</h2>
           <p>{c.countCaption}</p>
           <div className="summary-initials">
             {team.map((member) => (
@@ -22,6 +23,11 @@ export function TeamSummaryScreen() {
                 {member.name.slice(0, 1)}
               </span>
             ))}
+            {roster.pending.length > 0 && (
+              <span aria-label={`${roster.pending.length} — ${content.overview.pending}`}>
+                +{roster.pending.length}
+              </span>
+            )}
           </div>
         </div>
         <div className="summary-values">

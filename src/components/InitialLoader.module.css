@@ -1,0 +1,233 @@
+.loader {
+  width: min(100%, 1080px);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  align-items: center;
+  gap: clamp(24px, 4vw, 70px);
+}
+
+.art {
+  position: relative;
+  aspect-ratio: 1;
+  perspective: 800px;
+}
+
+.aura {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse, #8953e066, transparent 65%);
+  filter: blur(25px);
+}
+
+.ground {
+  position: absolute;
+  inset: 9%;
+  border: 1px solid #bda3ff40;
+  border-radius: 50%;
+  transform: translateY(85px) rotateX(65deg);
+  box-shadow:
+    0 0 0 28px #ad8aff08,
+    0 0 0 29px #ad8aff15,
+    inset 0 0 70px #4c98b422;
+}
+
+.assembly {
+  position: absolute;
+  inset: 22%;
+  transform-style: preserve-3d;
+  transform: rotateX(48deg) rotateZ(-32deg);
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  border-radius: 20%;
+  background: linear-gradient(145deg, #7851b1, #382552 65%, #437082);
+  border: 1px solid #d3b7ff80;
+  box-shadow:
+    inset 1px 2px 3px #ffffff45,
+    0 4px #513676,
+    0 9px #241b3d,
+    0 20px 35px #07031677;
+}
+
+.topLayer {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #c69af3, #8153ca 45%, #346f93);
+  box-shadow:
+    inset 2px 3px 5px #f2dbff99,
+    inset -2px -3px 4px #2b1a5344,
+    0 4px #61458c,
+    0 9px #342250;
+}
+
+.topLayer::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px solid #e6d5ff55;
+  border-radius: 18%;
+}
+
+.topLayer > span {
+  font-family: var(--mono);
+  font-size: clamp(52px, 7vw, 104px);
+  font-weight: 600;
+  color: #faf3ff;
+  text-shadow:
+    1px 3px #8462b8,
+    2px 5px #493569;
+}
+
+.topLayer > span > span {
+  color: var(--cyan);
+}
+
+.connection {
+  position: absolute;
+  height: 2px;
+  width: 35%;
+  right: -9%;
+  top: 53%;
+  background: linear-gradient(90deg, #ac81fc, #92e6eb00);
+  box-shadow: -12px 0 14px #b388ff55;
+}
+
+.copy {
+  min-width: 0;
+}
+
+.copy h1 {
+  font-size: clamp(52px, 6vw, 94px);
+  line-height: 1.08;
+  font-weight: 650;
+  letter-spacing: -0.07em;
+  margin: 18px 0;
+}
+
+.gradient {
+  background: linear-gradient(120deg, #d7b8ff, #98eaf0);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.command {
+  color: #b5a7d0;
+  font-size: 13px;
+}
+
+.status {
+  margin-top: 32px;
+  font-size: clamp(12px, 1.1vw, 18px);
+  color: #e4d9f9;
+  min-height: 1.5em;
+}
+
+.track {
+  height: 6px;
+  margin-top: 18px;
+  background: #bca0ff15;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  transform-origin: left;
+  background: linear-gradient(90deg, #9251fa, #d3adff 55%, #97eaf0);
+  border-radius: inherit;
+  box-shadow: 0 0 18px #ab75ff80;
+}
+
+.modules {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 19px;
+}
+
+.module {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font: 9px var(--mono);
+  color: #9686b1;
+  transition: color 250ms;
+}
+
+.moduleDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #655579;
+  flex-shrink: 0;
+}
+
+.active {
+  color: #decef7;
+}
+.active .moduleDot {
+  background: var(--cyan);
+  box-shadow: 0 0 10px #98eaf070;
+}
+.copy button {
+  margin-top: 35px;
+}
+.hint {
+  margin-top: 13px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+@media (max-width: 900px) {
+  .loader {
+    gap: 20px;
+  }
+  .copy h1 {
+    font-size: 53px;
+  }
+  .module {
+    font-size: 7px;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 600px) {
+  .loader {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    text-align: center;
+  }
+  .art {
+    width: 190px;
+    justify-self: center;
+  }
+  .connection {
+    display: none;
+  }
+  .ground {
+    transform: translateY(28px) rotateX(65deg);
+  }
+  .copy > p:first-child {
+    justify-content: center;
+  }
+  .copy h1 {
+    font-size: 53px;
+    margin-block: 14px;
+  }
+  .status {
+    margin-top: 22px;
+  }
+  .modules {
+    gap: 8px;
+  }
+  .module {
+    font-size: 8px;
+    justify-content: center;
+  }
+  .copy button {
+    margin-top: 25px;
+  }
+}

@@ -5,7 +5,7 @@ export function Avatar({ member, large = false }: { member: TeamMember; large?: 
   const [failed, setFailed] = useState(false);
   return (
     <div
-      className={`avatar avatar--${member.accent} ${large ? 'avatar--large' : ''} ${member.image && !failed && member.imageStyle === 'cutout' ? 'avatar--cutout' : ''}`}
+      className={`avatar avatar--${member.accent} avatar--${member.id} ${large ? 'avatar--large' : ''} ${member.image && !failed && member.imageStyle === 'cutout' ? 'avatar--cutout' : ''}`}
     >
       {member.image && !failed ? (
         <img

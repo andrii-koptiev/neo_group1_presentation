@@ -1,0 +1,23 @@
+Tool: built-in image_gen; edit mode; transparent_background=true.
+Reference: public/photos/andrii-portrait.png
+
+Output: public/photos/valentyna-portrait.png
+Use case: background-extraction, identity-preserve.
+Asset type: transparent PNG portrait for a dark Ukrainian developer team presentation.
+Input image 1 is the EDIT TARGET person. Image 2 (man in navy T-shirt) is STYLE/FRAMING REFERENCE ONLY, never copy his face or clothing.
+Create a clean photorealistic cutout of the person in image 1 with genuine alpha transparency. Match the reference's soft studio lighting, natural skin texture, neutral color balance, and vertical 3:4 composition. Head and upper torso, shoulders fully inside frame, modest headroom, face comfortably large, torso reaches bottom edge. Preserve the EXACT recognizable face, facial proportions, age, expression, hairstyle, hair color, body build and original clothing of image 1. Keep original face angle and natural expression. Do not beautify, slim, or change identity. Remove all scenery. No background, gradient, frame, text, halo or cast shadow outside the silhouette. Clean hair edges suitable against near-black slides. Do not include the reference man. Return a single-person transparent PNG.
+Subject constraints: Preserve her blonde shoulder-length hair and olive green T-shirt. Remove the bag and white bag strap, reconstructing only the obscured T-shirt naturally. Keep her gentle smile.
+
+Output: public/photos/serhii-portrait.png
+Use case: background-extraction, identity-preserve.
+Asset type: transparent PNG portrait for a dark Ukrainian developer team presentation.
+Input image 1 is the EDIT TARGET person. Image 2 (man in navy T-shirt) is STYLE/FRAMING REFERENCE ONLY, never copy his face or clothing.
+Create a clean photorealistic cutout of the person in image 1 with genuine alpha transparency. Match the reference's soft studio lighting, natural skin texture, neutral color balance, and vertical 3:4 composition. Head and upper torso, shoulders fully inside frame, modest headroom, face comfortably large, torso reaches bottom edge. Preserve the EXACT recognizable face, facial proportions, age, expression, hairstyle, hair color, body build and original clothing of image 1. Keep original face angle and natural expression. Do not beautify, slim, or change identity. Remove all scenery. No background, gradient, frame, text, halo or cast shadow outside the silhouette. Clean hair edges suitable against near-black slides. Do not include the reference man. Return a single-person transparent PNG.
+Subject constraints: Preserve his short dark hair, calm expression and navy shirt with pink check pattern. Source is low-resolution: improve clarity conservatively without altering facial features. Extend the shirt naturally only as needed for complete shoulders and upper torso.
+
+Output: public/photos/halyna-portrait.png
+Use case: background-extraction, identity-preserve.
+Asset type: transparent PNG portrait for a dark Ukrainian developer team presentation.
+Input image 1 is the EDIT TARGET person. Image 2 (man in navy T-shirt) is STYLE/FRAMING REFERENCE ONLY, never copy his face or clothing.
+Create a clean photorealistic cutout of the person in image 1 with genuine alpha transparency. Match the reference's soft studio lighting, natural skin texture, neutral color balance, and vertical 3:4 composition. Head and upper torso, shoulders fully inside frame, modest headroom, face comfortably large, torso reaches bottom edge. Preserve the EXACT recognizable face, facial proportions, age, expression, hairstyle, hair color, body build and original clothing of image 1. Keep original face angle and natural expression. Do not beautify, slim, or change identity. Remove all scenery. No background, gradient, frame, text, halo or cast shadow outside the silhouette. Clean hair edges suitable against near-black slides. Do not include the reference man. Return a single-person transparent PNG.
+Subject constraints: Preserve her red hair, smile, white top, pale open striped shirt and delicate necklace. Crop the outdoor full-length photo to head and upper torso and remove all trees and paving. Correct the outdoor green/yellow cast gently, retaining natural skin.
