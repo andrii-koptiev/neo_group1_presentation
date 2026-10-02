@@ -47,7 +47,7 @@ export function MemberCard({
         <Avatar member={member} />
       </div>
       <div className={styles.copy}>
-        <h2>{member.name}</h2>
+        <h2>{member.name.trim().split(/\s+/)[0]}</h2>
         <p className={styles.role}>{member.role}</p>
         <span className={styles.location}>
           <MapPin size={14} />

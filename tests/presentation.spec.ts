@@ -95,7 +95,14 @@ test('complete presentation using the keyboard and restart', async ({ page }) =>
   await expect(page.getByRole('heading', { name: 'TEAM_OS', exact: true })).toBeVisible();
   await page.keyboard.press('ArrowRight');
   await expect(page.getByRole('heading', { name: 'Знайомтесь. Це ми.' })).toBeVisible();
-  for (const member of ['Андрій', 'Валентина', 'Сергій', 'Галина']) {
+  for (const member of [
+    'Андрій',
+    'Валентина',
+    'Сергій',
+    'Галина',
+    'Валентина Дрозд',
+    'Олена Гокун',
+  ]) {
     await page.keyboard.press('ArrowRight');
     await expect(page.getByRole('heading', { name: member, exact: true })).toBeVisible();
     const portrait = page.locator('.profile-identity img');
@@ -162,8 +169,8 @@ for (const viewport of [
   test(`screens fit viewport at ${viewport.width}x${viewport.height}`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto('/');
-    for (let i = 0; i < 8; i++) {
-      await expect(page.getByLabel(`Слайд ${i + 1} / 8`, { exact: true })).toBeVisible();
+    for (let i = 0; i < 10; i++) {
+      await expect(page.getByLabel(`Слайд ${i + 1} / 10`, { exact: true })).toBeVisible();
       await expect(page.locator('main')).toBeVisible();
       await expect(page.locator('.slide > section')).toBeVisible();
       await expect
@@ -184,6 +191,10 @@ for (const viewport of [
         for (const card of await cards.all()) {
           await expect(card).toBeVisible();
           const rect = await card.boundingBox();
+          const parent = await card.evaluate((element) =>
+            element.parentElement!.getBoundingClientRect().toJSON(),
+          );
+          expect(rect!.y + rect!.height).toBeLessThanOrEqual(parent.bottom + 1);
           const main = await page.locator('main').boundingBox();
           expect(rect!.y + rect!.height).toBeLessThanOrEqual(main!.y + main!.height + 1);
           const copy = await card.locator('.answer-copy').boundingBox();
@@ -224,6 +235,18 @@ test('large equal-height cards fill the team screen and scroll without moving na
     );
     expect(Math.max(...heights) - Math.min(...heights)).toBeLessThan(1);
     expect(Math.min(...heights)).toBeGreaterThanOrEqual(220);
+    const portraitHeights = await page
+      .locator('.member-card .avatar')
+      .evaluateAll((elements) => elements.map((element) => element.getBoundingClientRect().height));
+    expect(Math.max(...portraitHeights) - Math.min(...portraitHeights)).toBeLessThan(1);
+    await expect(page.locator('.member-card h2')).toHaveText([
+      'Андрій',
+      'Валентина',
+      'Сергій',
+      'Галина',
+      'Валентина',
+      'Олена',
+    ]);
     for (const slot of await slots.all()) {
       const box = await slot.boundingBox();
       const card = await slot.locator('.member-card, .placeholder-card').boundingBox();
@@ -259,7 +282,7 @@ test('large equal-height cards fill the team screen and scroll without moving na
         })
         .toBe(true);
       expect((await page.locator('.shell-footer').boundingBox())!.y).toBe(footer!.y);
-      await expect(page.getByLabel('Слайд 2 / 8', { exact: true })).toBeVisible();
+      await expect(page.getByLabel('Слайд 2 / 10', { exact: true })).toBeVisible();
       await page.screenshot({ path: `test-results/roster-scrolled-${viewport.width}.png` });
     }
   }
@@ -272,10 +295,10 @@ test('overview shows eleven honest slots and previews a member with pointer or k
   await page.goto('/');
   await expect(page.locator('.intro-title')).toBeFocused();
   await page.keyboard.press('ArrowRight');
-  await expect(page.locator('.member-card')).toHaveCount(4);
+  await expect(page.locator('.member-card')).toHaveCount(6);
   const pending = page.getByRole('list', { name: 'Склад команди' });
   await expect(pending.getByRole('listitem')).toHaveCount(11);
-  await expect(page.locator('.placeholder-card')).toHaveCount(7);
+  await expect(page.locator('.placeholder-card')).toHaveCount(5);
   await expect(page.locator('.placeholder-card button')).toHaveCount(0);
   await expect(page.getByText('Готові профілі', { exact: false })).toHaveCount(0);
   await expect(page.locator('.member-card').nth(1).getByText('SQL', { exact: true })).toBeVisible();
@@ -283,7 +306,7 @@ test('overview shows eleven honest slots and previews a member with pointer or k
   await expect(page.locator('.member-card').getByText('OutSystems', { exact: true })).toHaveCount(
     0,
   );
-  for (let number = 5; number <= 11; number++) {
+  for (let number = 7; number <= 11; number++) {
     await expect(
       pending.getByRole('listitem', {
         name: `Місце для учасника ${number}. скоро знайомство`,
@@ -302,7 +325,7 @@ test('overview shows eleven honest slots and previews a member with pointer or k
   await expect(page.getByRole('heading', { name: 'Сергій', exact: true })).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(page.getByRole('heading', { name: 'Знайомтесь. Це ми.' })).toBeVisible();
-  await expect(page.getByLabel('Слайд 2 / 8', { exact: true })).toBeVisible();
+  await expect(page.getByLabel('Слайд 2 / 10', { exact: true })).toBeVisible();
   await page.keyboard.press('End');
   await page.keyboard.press('ArrowLeft');
   await expect(page.locator('.summary-count')).toHaveText('11.');
@@ -317,7 +340,7 @@ for (const ready of [5, 8, 11]) {
         response,
         body:
           (await response.text()) +
-          `\nteam.push(...Array.from({length: ${ready - 4}}, (_, i) => ({...team[i % 4], id: "extra-" + i, name: team[i % 4].name + " " + (i + 2)})));`,
+          `\nteam.splice(${ready}); const fixtures = [...team]; team.push(...Array.from({length: Math.max(0, ${ready} - fixtures.length)}, (_, i) => ({...fixtures[i % fixtures.length], id: "extra-" + i, name: fixtures[i % fixtures.length].name + " " + (i + 2)})));`,
       });
     });
     for (const viewport of [
@@ -374,7 +397,7 @@ test('capture screens and report runtime errors', async ({ page }) => {
   await page.keyboard.press('ArrowRight');
   await expect(page.getByRole('heading', { name: 'Андрій', exact: true })).toBeVisible();
   await page.screenshot({ path: 'test-results/profile-desktop.png' });
-  for (const member of ['Валентина', 'Сергій', 'Галина']) {
+  for (const member of ['Валентина', 'Сергій', 'Галина', 'Валентина Дрозд', 'Олена Гокун']) {
     await page.keyboard.press('ArrowRight');
     await expect(page.getByRole('heading', { name: member, exact: true })).toBeVisible();
     await page.screenshot({ path: `test-results/profile-${member}.png` });
@@ -400,7 +423,7 @@ test('capture screens and report runtime errors', async ({ page }) => {
   await page.getByRole('button', { name: /Познайомитися з Андрій/ }).click();
   await expect(page.getByRole('heading', { name: 'Андрій', exact: true })).toBeVisible();
   await page.screenshot({ path: 'test-results/profile-mobile.png' });
-  for (const member of ['Валентина', 'Сергій', 'Галина']) {
+  for (const member of ['Валентина', 'Сергій', 'Галина', 'Валентина Дрозд', 'Олена Гокун']) {
     await page.keyboard.press('ArrowRight');
     await expect(page.getByRole('heading', { name: member, exact: true })).toBeVisible();
     await page.screenshot({ path: `test-results/profile-mobile-${member}.png` });
@@ -514,6 +537,133 @@ test('member card follows the reference hierarchy with all seven topics visible'
   await page.screenshot({ path: 'test-results/profile-ultrawide.png' });
 });
 
+test('long profile journey labels wrap without truncation', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Познайомитися', exact: true }).click();
+  await page.getByRole('button', { name: /Познайомитися з Валентина Дрозд/ }).click();
+  for (const viewport of [
+    { width: 1920, height: 1080 },
+    { width: 1280, height: 720 },
+    { width: 768, height: 1024 },
+  ]) {
+    await page.setViewportSize(viewport);
+    for (const label of await page.locator('.member-journey strong').all()) {
+      const dimensions = await label.evaluate((element) => ({
+        width: element.clientWidth,
+        contentWidth: element.scrollWidth,
+        height: element.clientHeight,
+        contentHeight: element.scrollHeight,
+        ellipsis: getComputedStyle(element).textOverflow,
+      }));
+      expect(dimensions.contentWidth).toBeLessThanOrEqual(dimensions.width + 1);
+      expect(dimensions.contentHeight).toBeLessThanOrEqual(dimensions.height + 1);
+      expect(dimensions.ellipsis).not.toBe('ellipsis');
+    }
+  }
+});
+
+for (const viewport of [
+  { width: 1920, height: 1080 },
+  { width: 390, height: 844 },
+]) {
+  test(`profile sections expand accessibly and preserve the member at ${viewport.width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    await page.getByRole('button', { name: 'Познайомитися', exact: true }).click();
+    await page.getByRole('button', { name: /Познайомитися з Валентина Дрозд/ }).click();
+    const trigger = page.getByRole('button', { name: 'Розгорнути розділ «Про мене»' });
+    await trigger.focus();
+    await page.keyboard.press('Space');
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toBeVisible();
+    await expect(dialog.getByRole('heading', { name: 'Про мене', exact: true })).toBeVisible();
+    await expect(dialog).toContainText('прикладний математик');
+    await page.keyboard.press('ArrowRight');
+    await expect(dialog.getByRole('heading', { name: 'Досвід', exact: true })).toBeVisible();
+    await page.keyboard.press('End');
+    await expect(
+      dialog.getByRole('heading', { name: 'Після магістратури', exact: true }),
+    ).toBeVisible();
+    await page.keyboard.press('ArrowRight');
+    await expect(
+      dialog.getByRole('heading', { name: 'Після магістратури', exact: true }),
+    ).toBeVisible();
+    await page.keyboard.press('Home');
+    await expect(dialog.getByRole('heading', { name: 'Про мене', exact: true })).toBeVisible();
+    // Native modal focus stays inside, even when tabbing backwards from its first control.
+    await dialog.getByRole('button', { name: 'Закрити розділ' }).focus();
+    await page.keyboard.press('Shift+Tab');
+    expect(await dialog.evaluate((element) => element.contains(document.activeElement))).toBe(true);
+    const close = dialog.getByRole('button', { name: 'Закрити розділ' });
+    await close.focus();
+    await page.keyboard.press('Escape');
+    await expect(dialog).not.toBeVisible();
+    await expect(trigger).toBeFocused();
+    await expect(page.getByRole('heading', { name: 'Валентина Дрозд', exact: true })).toBeVisible();
+    // A focused button handles Space once, without advancing the presentation.
+    await page.keyboard.press('Space');
+    await expect(dialog).toBeVisible();
+    await dialog.getByRole('button', { name: 'Наступний розділ' }).click();
+    await expect(dialog.getByRole('heading', { name: 'Досвід', exact: true })).toBeVisible();
+    await dialog.getByRole('button', { name: 'Попередній розділ' }).click();
+    await expect(dialog.getByRole('heading', { name: 'Про мене', exact: true })).toBeVisible();
+    const panel = await dialog.boundingBox();
+    expect(panel!.x).toBeGreaterThanOrEqual(0);
+    expect(panel!.y).toBeGreaterThanOrEqual(0);
+    expect(panel!.x + panel!.width).toBeLessThanOrEqual(viewport.width);
+    expect(panel!.y + panel!.height).toBeLessThanOrEqual(viewport.height);
+    await page.screenshot({ path: `test-results/profile-focus-${viewport.width}.png` });
+    await close.click();
+    await expect(trigger).toBeFocused();
+    await page.keyboard.press('Escape');
+    await expect(page.getByRole('heading', { name: 'Знайомтесь. Це ми.' })).toBeVisible();
+  });
+}
+
+test('section transitions, all answers, future strip, and backdrop work with normal motion', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Познайомитися', exact: true }).click();
+  await page.getByRole('button', { name: /Познайомитися з Валентина Дрозд/ }).click();
+  const answers = page.locator('.profile-answer');
+  const expected = await answers.evaluateAll((elements) =>
+    elements.map((element) => ({
+      title: element.querySelector('h2')!.textContent!,
+      copy: element.querySelector('.answer-copy')!.textContent!,
+    })),
+  );
+  await answers.first().getByRole('button').click();
+  const dialog = page.getByRole('dialog');
+  for (let index = 0; index < expected.length; index++) {
+    await expect(
+      dialog.getByRole('heading', { name: expected[index].title, exact: true }),
+    ).toBeVisible();
+    await expect(dialog.locator('.focus-answer')).toHaveText(expected[index].copy);
+    const copy = await dialog.locator('.focus-answer').boundingBox();
+    const footer = await dialog.locator('.focus-footer').boundingBox();
+    expect(copy!.y + copy!.height).toBeLessThanOrEqual(footer!.y);
+    if (index < expected.length - 1)
+      await dialog.getByRole('button', { name: 'Наступний розділ' }).click();
+  }
+  await page.keyboard.press('Escape');
+  // The future strip's arrow also opens its section, using the whole strip as a target.
+  const arrow = await page.locator('.member-future-arrow').boundingBox();
+  await page.mouse.click(arrow!.x + arrow!.width / 2, arrow!.y + arrow!.height / 2);
+  await expect(
+    dialog.getByRole('heading', { name: 'Після магістратури', exact: true }),
+  ).toBeVisible();
+  await page.mouse.click(20, 20);
+  await expect(dialog).not.toBeVisible();
+  await expect(answers.last().getByRole('button')).toBeFocused();
+  await page.keyboard.press('ArrowRight');
+  await expect(page.getByRole('heading', { name: 'Олена Гокун', exact: true })).toBeVisible();
+});
+
 test('side developer notes stay in the margins and the idea button preserves navigation', async ({
   page,
 }) => {
@@ -543,7 +693,7 @@ test('side developer notes stay in the margins and the idea button preserves nav
   await expect(
     page.getByText('Хороший prompt починається з хорошого запитання.', { exact: true }),
   ).toBeVisible();
-  await expect(page.getByLabel('Слайд 1 / 8', { exact: true })).toBeVisible();
+  await expect(page.getByLabel('Слайд 1 / 10', { exact: true })).toBeVisible();
   await page.keyboard.press('ArrowRight');
   await expect(
     page.locator('.side-notes').getByText('$ cat team/README.md', { exact: true }),

@@ -2,6 +2,8 @@ import { ArrowLeft, ArrowRight, MapPin } from 'lucide-react';
 import { content, team } from '../data/team';
 import { Avatar } from '../components/Avatar';
 import { ProfileSection } from '../components/ProfileSection';
+import { ProfileFocus } from '../components/ProfileFocus';
+import { useState } from 'react';
 
 export function MemberScreen({
   memberIndex,
@@ -11,6 +13,7 @@ export function MemberScreen({
   onOverview: () => void;
 }) {
   const member = team[memberIndex];
+  const [focusIndex, setFocusIndex] = useState<number | null>(null);
 
   return (
     <section className={`member-screen member-card-page accent-${member.accent}`}>
@@ -33,7 +36,7 @@ export function MemberScreen({
       <div className="member-hero">
         <div className="member-hero-copy">
           <p className="member-command mono">$ {content.dev.profileCommand}</p>
-          <h1 aria-label={member.name}>
+          <h1 aria-label={member.name} data-long-name={member.name.length > 10}>
             {member.name}
             <span className="title-dot">.</span>
           </h1>
@@ -53,42 +56,48 @@ export function MemberScreen({
         </div>
       </div>
 
-      <div className="member-journey" aria-label="Професійний шлях">
+      <div className="member-journey" aria-label={content.profile.journey.label}>
         <div>
-          <span className="mono">ДО NEOVERSITY</span>
+          <span className="mono">{content.profile.journey.before}</span>
           <strong>{member.role}</strong>
         </div>
         <span className="journey-line">
           <ArrowRight size={14} />
         </span>
         <div>
-          <span className="mono">ЗАРАЗ</span>
-          <strong>Neoversity · AI / ML</strong>
+          <span className="mono">{content.profile.journey.now}</span>
+          <strong>{content.profile.journey.studying}</strong>
         </div>
         <span className="journey-line">
           <ArrowRight size={14} />
         </span>
         <div>
-          <span className="mono">ДАЛІ</span>
+          <span className="mono">{content.profile.journey.next}</span>
           <strong>{member.nextStep ?? content.profile.upgrade}</strong>
         </div>
       </div>
 
       <div className="member-card-content">
         <div className="member-story">
-          <ProfileSection member={member} index={0} />
-          <ProfileSection member={member} index={1} />
+          <ProfileSection member={member} index={0} onExpand={setFocusIndex} />
+          <ProfileSection member={member} index={1} onExpand={setFocusIndex} />
         </div>
         <div className="member-details">
           {[2, 3, 4, 5].map((index) => (
-            <ProfileSection key={index} member={member} index={index} />
+            <ProfileSection key={index} member={member} index={index} onExpand={setFocusIndex} />
           ))}
         </div>
         <div className="member-future">
-          <ProfileSection member={member} index={6} />
+          <ProfileSection member={member} index={6} onExpand={setFocusIndex} />
           <ArrowRight className="member-future-arrow" size={30} aria-hidden="true" />
         </div>
       </div>
+      <ProfileFocus
+        member={member}
+        index={focusIndex}
+        onChange={setFocusIndex}
+        onClose={() => setFocusIndex(null)}
+      />
     </section>
   );
 }
