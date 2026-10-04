@@ -2910,6 +2910,10 @@ kbd {
 .member-details .profile-answer:nth-child(even) {
   background: linear-gradient(145deg, #2d3853, #302842 85%);
 }
+.member-details .answer-copy {
+  font-size: clamp(12px, 0.88vw, 16px);
+  line-height: 1.38;
+}
 .member-details .profile-answer:hover,
 .member-details .profile-answer:focus-within {
   background: linear-gradient(145deg, #4c3c6a, #2b3b52 85%);
