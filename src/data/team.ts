@@ -5,6 +5,7 @@ export interface TeamMember {
   location: string;
   intro: string;
   technologies: string[];
+  cardTechnologies?: string[];
   about: string;
   experience: string;
   whyNeoversity: string;
@@ -46,6 +47,8 @@ export const featuredTechnologyNames = [
   'SQL',
   'Excel',
   'Power BI',
+  'AI / LLM',
+  'Product Management',
   'PHP',
   'Go',
   'AWS',
@@ -81,15 +84,16 @@ export const team: TeamMember[] = [
     id: 'andrii',
     name: 'Андрій',
     role: 'Fullstack Developer',
-    location: 'Миколаїв → Сарасота, США',
+    location: 'Миколаїв → Флорида, США',
     intro: '4+ роки у розробці · Фінтех і платіжні системи',
     technologies: ['React', 'Next.js', 'TypeScript', 'C#', '.NET', 'Azure'],
+    cardTechnologies: ['TypeScript', 'C#'],
     image: 'photos/andrii-portrait.png',
     imageAlt: 'Портрет Андрія Коптєва',
     imageStyle: 'cutout',
     accent: 'cyan',
     about:
-      'Родом із Миколаєва, живу в Сарасоті, Флорида. За першою освітою — магістр економіки підприємства. Зараз створюю фінтех-продукти.',
+      'Родом із Миколаєва, живу у Флориді. За першою освітою — магістр економіки підприємства. Зараз створюю фінтех-продукти.',
     experience:
       '4+ роки створюю вебпродукти: від інтерфейсів до API та інтеграцій. Зараз розробляю фінтех-проєкти та інтегрую платіжні системи.',
     whyNeoversity:
@@ -261,6 +265,32 @@ export const team: TeamMember[] = [
     afterGraduation:
       'Хочу використовувати знання AI/ML у реальних бізнес-проєктах і розширити свою професійну роль.',
     nextStep: 'AI/ML в аналітиці даних',
+  },
+  {
+    id: 'boris-gulyaev',
+    name: 'Boris Gulyaev',
+    role: 'Head of Product',
+    location: 'Kyiv',
+    intro: 'AI-продукти · Стратегія та SaaS',
+    technologies: ['AI / LLM', 'Product Management', 'Analytics/Metrics', 'Cloud & SaaS'],
+    image: 'photos/boris-gulyaev-portrait.png',
+    imageAlt: 'Портрет Бориса Гуляєва',
+    imageStyle: 'cutout',
+    accent: 'purple',
+    about:
+      'Створюю й масштабую AI-продукти на перетині продуктової стратегії, бізнесу й технологій.',
+    experience:
+      'Запускаю AI-функції в EdTech і SaaS та координую Enterprise AI програми з міжнародними командами.',
+    whyNeoversity:
+      'Хочу поглибити технічне розуміння Computer Science, AI та ML: краще розуміти архітектуру продуктів, принципи роботи моделей, дані й технологічні обмеження.',
+    goal: 'Поєднати досвід у продуктовій стратегії з глибшими знаннями Computer Science та AI/ML, щоб створювати складніші AI-native продукти й системи.',
+    superpower:
+      'Системне мислення та здатність перетворювати складні технологічні й бізнес-задачі на зрозумілу стратегію та план дій.',
+    helpOthers:
+      'Можу допомогти з продуктовою стратегією, Product Management, запуском технологічних продуктів, Enterprise AI програмами та роботою з міжнародними командами.',
+    afterGraduation:
+      'Хочу застосовувати AI/ML для створення AI-native продуктів, трансформації бізнес-моделей та вирішення складних бізнес-задач.',
+    nextStep: 'AI Product Strategy та Enterprise AI Architecture',
   },
 ];
 

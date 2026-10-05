@@ -56,7 +56,10 @@ export function MemberCard({
       </div>
       <div className={styles.bottom}>
         <div className={`${styles.technologies} mono`}>
-          {selectTeamTechnologies([member], 2).map((technology) => (
+          {selectTeamTechnologies(
+            [{ technologies: member.cardTechnologies ?? member.technologies }],
+            2,
+          ).map((technology) => (
             <span key={technology}>{technology}</span>
           ))}
         </div>

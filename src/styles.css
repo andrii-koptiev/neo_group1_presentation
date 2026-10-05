@@ -538,6 +538,12 @@ kbd {
   transform: scale(1.65);
   transform-origin: center 10%;
 }
+@media (min-width: 901px) {
+  .member-card-page .avatar--boris-gulyaev.avatar--cutout img {
+    transform: scale(1.2);
+    transform-origin: center 20%;
+  }
+}
 @media (max-width: 900px) {
   .member-card-page .avatar--cutout img {
     transform: scale(1.3);
