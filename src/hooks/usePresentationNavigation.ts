@@ -1,15 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { team } from '../data/team';
 
-export type Slide =
-  { type: 'intro' | 'team' | 'team-summary' | 'final' } | { type: 'member'; memberIndex: number };
+export type Slide = { type: 'intro' | 'team' | 'final' } | { type: 'member'; memberIndex: number };
 export function usePresentationNavigation() {
   const slides = useMemo<Slide[]>(
     () => [
       { type: 'intro' },
       { type: 'team' },
       ...team.map((_, memberIndex): Slide => ({ type: 'member', memberIndex })),
-      { type: 'team-summary' },
       { type: 'final' },
     ],
     [],
