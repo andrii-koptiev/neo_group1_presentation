@@ -346,7 +346,7 @@ test('overview shows nine profiles and two pending slots', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Vladyslav', exact: true })).toBeVisible();
   await expect(page.locator('.profile-identity img')).toHaveAttribute(
     'src',
-    'photos/vladyslav-portrait.png',
+    'photos/vladyslav-portrait.webp',
   );
   await page.keyboard.press('Escape');
   await expect(page.locator('.member-card').getByText('OutSystems', { exact: true })).toHaveCount(
