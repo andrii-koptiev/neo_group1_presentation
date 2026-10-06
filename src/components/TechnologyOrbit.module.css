@@ -150,9 +150,9 @@
   align-items: center;
   gap: 9px;
   width: max-content;
-  max-width: 185px;
+  max-width: 140px;
   overflow-wrap: anywhere;
-  padding: 13px 18px;
+  padding: 10px 13px;
   border: 1px solid #b5a0ed48;
   border-radius: 12px;
   background: linear-gradient(155deg, #6e588b, #3b305a 48%, #252d46);
@@ -163,7 +163,7 @@
     0 6px 0 #281e40,
     0 14px 22px #09031b66;
   color: #f2eeff;
-  font-size: clamp(12px, 1vw, 17px);
+  font-size: clamp(11px, 0.85vw, 15px);
   font-weight: 500;
   transition:
     border-color 200ms,
@@ -204,10 +204,10 @@
 
 @media (max-width: 1200px) {
   .badge {
-    padding: 10px 12px;
+    padding: 8px 10px;
     gap: 6px;
-    font-size: 11px;
-    max-width: 140px;
+    font-size: 10px;
+    max-width: 118px;
   }
 }
 
@@ -244,8 +244,8 @@
   .technologies {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
   }
 
   .position {
@@ -255,9 +255,9 @@
   }
 
   .badge {
-    padding: 9px 12px;
+    padding: 8px 7px;
     border-radius: 8px;
-    font-size: 11px;
+    font-size: 10px;
     width: 100%;
     max-width: none;
     height: 100%;

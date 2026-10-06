@@ -23,9 +23,10 @@ test('intro technologies are unique, fit the screen, and include a new member au
     await expect(list).toBeVisible();
     const badges = list.getByRole('listitem');
     const names = (await badges.allTextContents()).map((name) => name.trim().toLowerCase());
-    expect(names).toHaveLength(8);
+    expect(names).toHaveLength(12);
     expect(new Set(names).size).toBe(names.length);
     expect(names).toContain('rust');
+    expect(names).toContain('linux');
     expect(names).not.toContain('outsystems');
     expect(names).not.toContain('microservices');
     expect(names.filter((name) => name === 'react')).toHaveLength(1);
@@ -104,6 +105,7 @@ test('complete presentation using the keyboard and restart', async ({ page }) =>
     'Олена Гокун',
     'Тетяна',
     'Boris Gulyaev',
+    'Vladyslav',
   ]) {
     await page.keyboard.press('ArrowRight');
     await expect(page.getByRole('heading', { name: member, exact: true })).toBeVisible();
@@ -126,7 +128,7 @@ test('complete presentation using the keyboard and restart', async ({ page }) =>
   }
   await page.keyboard.press('ArrowRight');
   await expect(page.getByRole('heading', { name: 'Хто ми як команда?' })).toBeVisible();
-  await expect(page.getByLabel('Слайд 11 / 11', { exact: true })).toBeVisible();
+  await expect(page.getByLabel('Слайд 12 / 12', { exact: true })).toBeVisible();
   const coffee = page.getByRole('button', { name: 'Запустити кавову перерву' });
   await coffee.focus();
   await page.keyboard.press('Space');
@@ -168,8 +170,8 @@ for (const viewport of [
   test(`screens fit viewport at ${viewport.width}x${viewport.height}`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto('/');
-    for (let i = 0; i < 11; i++) {
-      await expect(page.getByLabel(`Слайд ${i + 1} / 11`, { exact: true })).toBeVisible();
+    for (let i = 0; i < 12; i++) {
+      await expect(page.getByLabel(`Слайд ${i + 1} / 12`, { exact: true })).toBeVisible();
       await expect(page.locator('main')).toBeVisible();
       await expect(page.locator('.slide > section')).toBeVisible();
       await expect
@@ -250,6 +252,7 @@ test('large equal-height cards fill the team screen and scroll without moving na
       'Олена',
       'Тетяна',
       'Boris',
+      'Vladyslav',
     ]);
     for (const slot of await slots.all()) {
       const box = await slot.boundingBox();
@@ -286,23 +289,21 @@ test('large equal-height cards fill the team screen and scroll without moving na
         })
         .toBe(true);
       expect((await page.locator('.shell-footer').boundingBox())!.y).toBe(footer!.y);
-      await expect(page.getByLabel('Слайд 2 / 11', { exact: true })).toBeVisible();
+      await expect(page.getByLabel('Слайд 2 / 12', { exact: true })).toBeVisible();
       await page.screenshot({ path: `test-results/roster-scrolled-${viewport.width}.png` });
     }
   }
 });
 
-test('overview shows eleven honest slots and previews a member with pointer or keyboard', async ({
-  page,
-}) => {
+test('overview shows nine profiles and two pending slots', async ({ page }) => {
   await page.setViewportSize({ width: 1920, height: 1080 });
   await page.goto('/');
   await expect(page.locator('.intro-title')).toBeFocused();
   await page.keyboard.press('ArrowRight');
-  await expect(page.locator('.member-card')).toHaveCount(8);
+  await expect(page.locator('.member-card')).toHaveCount(9);
   const pending = page.getByRole('list', { name: 'Склад команди' });
   await expect(pending.getByRole('listitem')).toHaveCount(11);
-  await expect(page.locator('.placeholder-card')).toHaveCount(3);
+  await expect(page.locator('.placeholder-card')).toHaveCount(2);
   await expect(page.locator('.placeholder-card button')).toHaveCount(0);
   await expect(page.getByText('Готові профілі', { exact: false })).toHaveCount(0);
   const andrii = page.getByRole('button', { name: 'Познайомитися з Андрій', exact: true });
@@ -338,10 +339,20 @@ test('overview shows eleven honest slots and previews a member with pointer or k
     ),
   ).toBeVisible();
   await page.keyboard.press('Escape');
+  const vladyslav = page.getByRole('button', { name: 'Познайомитися з Vladyslav', exact: true });
+  await expect(vladyslav.getByText('Docker', { exact: true })).toBeVisible();
+  await expect(vladyslav.getByText('LoRA', { exact: true })).toBeVisible();
+  await vladyslav.click();
+  await expect(page.getByRole('heading', { name: 'Vladyslav', exact: true })).toBeVisible();
+  await expect(page.locator('.profile-identity img')).toHaveAttribute(
+    'src',
+    'photos/vladyslav-portrait.png',
+  );
+  await page.keyboard.press('Escape');
   await expect(page.locator('.member-card').getByText('OutSystems', { exact: true })).toHaveCount(
     0,
   );
-  for (let number = 9; number <= 11; number++) {
+  for (let number = 10; number <= 11; number++) {
     await expect(
       pending.getByRole('listitem', {
         name: `Місце для учасника ${number}. скоро знайомство`,
@@ -355,7 +366,7 @@ test('overview shows eleven honest slots and previews a member with pointer or k
   await expect(page.getByRole('heading', { name: 'Сергій', exact: true })).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(page.getByRole('heading', { name: 'Знайомтесь. Це ми.' })).toBeVisible();
-  await expect(page.getByLabel('Слайд 2 / 11', { exact: true })).toBeVisible();
+  await expect(page.getByLabel('Слайд 2 / 12', { exact: true })).toBeVisible();
   await page.keyboard.press('End');
   await expect(page.getByRole('heading', { name: 'Хто ми як команда?' })).toBeVisible();
   await expect(page.locator('.summary-count')).toHaveText('11.');
@@ -434,6 +445,7 @@ test('capture screens and report runtime errors', async ({ page }) => {
     'Олена Гокун',
     'Тетяна',
     'Boris Gulyaev',
+    'Vladyslav',
   ]) {
     await page.keyboard.press('ArrowRight');
     await expect(page.getByRole('heading', { name: member, exact: true })).toBeVisible();
@@ -462,6 +474,7 @@ test('capture screens and report runtime errors', async ({ page }) => {
     'Олена Гокун',
     'Тетяна',
     'Boris Gulyaev',
+    'Vladyslav',
   ]) {
     await page.keyboard.press('ArrowRight');
     await expect(page.getByRole('heading', { name: member, exact: true })).toBeVisible();
@@ -488,7 +501,7 @@ test('normal motion, boot readiness, focus, and button navigation', async ({ pag
   await page.keyboard.press('End');
   await expect(page.getByRole('heading', { name: 'Хто ми як команда?' })).toBeFocused();
   await page.locator('.nav-arrow').click();
-  await expect(page.getByRole('heading', { name: 'Boris Gulyaev' })).toBeFocused();
+  await expect(page.getByRole('heading', { name: 'Vladyslav' })).toBeFocused();
   await page.locator('.nav-next').click();
   await expect(page.getByRole('heading', { name: 'Хто ми як команда?' })).toBeFocused();
 });
@@ -497,14 +510,16 @@ test('the single closing slide answers five team questions interactively', async
   await page.goto('/');
   await page.getByRole('button', { name: 'Познайомитися', exact: true }).click();
   await page.keyboard.press('End');
-  await expect(page.getByLabel('Слайд 11 / 11', { exact: true })).toBeVisible();
+  await expect(page.getByLabel('Слайд 12 / 12', { exact: true })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Хто ми як команда?' })).toBeVisible();
   const questions = page.locator('[data-team-question]');
   await expect(questions).toHaveCount(5);
   await expect(questions.nth(0)).toHaveAttribute('aria-pressed', 'true');
   await questions.nth(1).click();
   await expect(questions.nth(1)).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.getByRole('heading', { name: 'Від Swift до SQL і LLM' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Від Swift до LoRA і Docker' })).toBeVisible();
+  await expect(page.locator('[class*="answerPanel"]')).toContainText('Linux');
+  await expect(page.locator('[class*="answerPanel"]')).toContainText('LoRA');
   await expect(page.locator('.slide > section')).not.toContainText('України');
   await page.keyboard.press('5');
   await expect(questions.nth(4)).toHaveAttribute('aria-pressed', 'true');
@@ -513,7 +528,7 @@ test('the single closing slide answers five team questions interactively', async
   ).toBeVisible();
   await expect(page.getByText('AI / ML у реальних задачах', { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Почати спочатку' })).toBeVisible();
-  await expect(page.getByLabel('Слайд 11 / 11', { exact: true })).toBeVisible();
+  await expect(page.getByLabel('Слайд 12 / 12', { exact: true })).toBeVisible();
   await page.setViewportSize({ width: 390, height: 844 });
   await page.screenshot({ path: 'test-results/final-mobile.png' });
   for (const question of await questions.all()) {
@@ -767,7 +782,7 @@ test('side developer notes stay in the margins and the idea button preserves nav
   await expect(
     page.getByText('Хороший prompt починається з хорошого запитання.', { exact: true }),
   ).toBeVisible();
-  await expect(page.getByLabel('Слайд 1 / 11', { exact: true })).toBeVisible();
+  await expect(page.getByLabel('Слайд 1 / 12', { exact: true })).toBeVisible();
   await page.keyboard.press('ArrowRight');
   await expect(
     page.locator('.side-notes').getByText('$ cat team/README.md', { exact: true }),

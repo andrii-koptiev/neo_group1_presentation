@@ -5,6 +5,11 @@ import { selectTeamTechnologies } from '../data/teamTechnologies';
 import styles from './TechnologyOrbit.module.css';
 
 const motionPreference = '(prefers-reduced-motion: reduce)';
+const orbitLabels: Record<string, string> = {
+  'Linux Administration': 'Linux',
+  'Product Management': 'Product',
+  'iOS SDK': 'iOS',
+};
 function subscribeToMotionPreference(onChange: () => void) {
   const media = window.matchMedia(motionPreference);
   media.addEventListener('change', onChange);
@@ -23,7 +28,9 @@ export function TechnologyOrbit() {
   const y = useSpring(pointerY, { stiffness: 70, damping: 22 });
   const rotateX = useTransform(y, [-8, 8], [17, 3]);
   const rotateY = useTransform(x, [-8, 8], [-19, -5]);
-  const technologies = selectTeamTechnologies(team);
+  const technologies = selectTeamTechnologies(team, 12).map(
+    (technology) => orbitLabels[technology] ?? technology,
+  );
 
   const move = (event: PointerEvent<HTMLDivElement>) => {
     if (reduced || event.pointerType !== 'mouse') return;
@@ -72,8 +79,8 @@ export function TechnologyOrbit() {
                 className={styles.position}
                 style={
                   {
-                    '--x': `${50 + Math.cos(angle) * 38}%`,
-                    '--y': `${50 + Math.sin(angle) * 37}%`,
+                    '--x': `${50 + Math.cos(angle) * 39}%`,
+                    '--y': `${50 + Math.sin(angle) * 39}%`,
                   } as CSSProperties
                 }
               >
