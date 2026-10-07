@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Coffee, RotateCcw } from 'lucide-react';
-import { content, getTeamRoster } from '../data/team';
+import { content, team } from '../data/team';
 import { DevNote } from '../components/DevNote';
 import styles from './FinalScreen.module.css';
 
 export function FinalScreen({ restart }: { restart: () => void }) {
   const c = content.final;
-  const roster = getTeamRoster();
+  const memberCount = team.length;
   const reducedMotion = useReducedMotion();
   const [activeQuestion, setActiveQuestion] = useState(0);
   const [coffeeReady, setCoffeeReady] = useState(false);
@@ -40,8 +40,8 @@ export function FinalScreen({ restart }: { restart: () => void }) {
           <h1>{c.title}</h1>
           <p className={styles.subtitle}>{c.subtitle}</p>
         </div>
-        <div className={styles.people} aria-label={`${roster.total} ${c.people}`}>
-          <span className="summary-count">{String(roster.total).padStart(2, '0')}.</span>
+        <div className={styles.people} aria-label={`${memberCount} ${c.people}`}>
+          <span className="summary-count">{String(memberCount).padStart(2, '0')}.</span>
           <span>{c.people}</span>
         </div>
       </header>

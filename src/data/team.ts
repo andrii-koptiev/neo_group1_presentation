@@ -20,20 +20,6 @@ export interface TeamMember {
   accent: 'cyan' | 'purple' | 'lime';
 }
 
-// Місця без отриманих відповідей не є профілями й не додають порожніх слайдів.
-export const teamSize = 11;
-
-export function getTeamRoster(members: TeamMember[] = team) {
-  const total = Math.max(teamSize, members.length);
-  return {
-    total,
-    pending: Array.from({ length: total - members.length }, (_, index) => ({
-      id: `pending-${members.length + index + 1}`,
-      number: members.length + index + 1,
-    })),
-  };
-}
-
 // Display eligibility, not a claim about the team: only technologies present in profiles appear.
 export const featuredTechnologyNames = [
   'React',
@@ -477,11 +463,6 @@ export const content = {
     people: 'у команді',
     rosterLabel: 'Склад команди',
     scrollHint: 'Прокрутіть, щоб побачити всю команду',
-    pending: 'скоро знайомство',
-    pendingTitle: 'Ще трохи — і всі тут.',
-    pendingCommand: 'await team.join()',
-    pendingLabel: 'Місце для учасника',
-    pendingHint: 'Чекаємо на фото та історії',
     note: 'людей. Одна нова гілка — AI / ML.',
   },
   profile: {

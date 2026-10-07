@@ -233,7 +233,7 @@ test('large equal-height cards fill the team screen and scroll without moving na
     await page.goto('/');
     await page.getByRole('button', { name: 'Познайомитися', exact: true }).click();
     const slots = page.getByRole('list', { name: 'Склад команди' }).getByRole('listitem');
-    await expect(slots).toHaveCount(11);
+    await expect(slots).toHaveCount(9);
     const heights = await slots.evaluateAll((elements) =>
       elements.map((element) => element.getBoundingClientRect().height),
     );
@@ -256,7 +256,7 @@ test('large equal-height cards fill the team screen and scroll without moving na
     ]);
     for (const slot of await slots.all()) {
       const box = await slot.boundingBox();
-      const card = await slot.locator('.member-card, .placeholder-card').boundingBox();
+      const card = await slot.locator('.member-card').boundingBox();
       expect(card!.width).toBeCloseTo(box!.width, 0);
       expect(card!.height).toBeCloseTo(box!.height, 0);
     }
@@ -295,16 +295,17 @@ test('large equal-height cards fill the team screen and scroll without moving na
   }
 });
 
-test('overview shows nine profiles and two pending slots', async ({ page }) => {
+test('overview and summary count only the nine supplied profiles', async ({ page }) => {
   await page.setViewportSize({ width: 1920, height: 1080 });
   await page.goto('/');
   await expect(page.locator('.intro-title')).toBeFocused();
   await page.keyboard.press('ArrowRight');
   await expect(page.locator('.member-card')).toHaveCount(9);
-  const pending = page.getByRole('list', { name: 'Склад команди' });
-  await expect(pending.getByRole('listitem')).toHaveCount(11);
-  await expect(page.locator('.placeholder-card')).toHaveCount(2);
-  await expect(page.locator('.placeholder-card button')).toHaveCount(0);
+  const roster = page.getByRole('list', { name: 'Склад команди' });
+  await expect(roster.getByRole('listitem')).toHaveCount(9);
+  await expect(page.locator('.placeholder-card')).toHaveCount(0);
+  await expect(page.locator('.team-screen > div').getByText('09', { exact: true })).toBeVisible();
+  await expect(page.getByText('скоро знайомство', { exact: true })).toHaveCount(0);
   await expect(page.getByText('Готові профілі', { exact: false })).toHaveCount(0);
   const andrii = page.getByRole('button', { name: 'Познайомитися з Андрій', exact: true });
   await expect(andrii.getByText('TypeScript', { exact: true })).toBeVisible();
@@ -352,14 +353,6 @@ test('overview shows nine profiles and two pending slots', async ({ page }) => {
   await expect(page.locator('.member-card').getByText('OutSystems', { exact: true })).toHaveCount(
     0,
   );
-  for (let number = 10; number <= 11; number++) {
-    await expect(
-      pending.getByRole('listitem', {
-        name: `Місце для учасника ${number}. скоро знайомство`,
-        exact: true,
-      }),
-    ).toBeVisible();
-  }
   await serhii.focus();
   await expect(page.getByText('$ git switch team/serhii', { exact: true })).toBeVisible();
   await page.keyboard.press('Space');
@@ -369,11 +362,13 @@ test('overview shows nine profiles and two pending slots', async ({ page }) => {
   await expect(page.getByLabel('Слайд 2 / 12', { exact: true })).toBeVisible();
   await page.keyboard.press('End');
   await expect(page.getByRole('heading', { name: 'Хто ми як команда?' })).toBeVisible();
-  await expect(page.locator('.summary-count')).toHaveText('11.');
+  await expect(page.locator('.summary-count')).toHaveText('09.');
 });
 
 for (const ready of [5, 8, 11]) {
-  test(`overview scales to ${ready} profiles and removes filled placeholders`, async ({ page }) => {
+  test(`overview and summary use ${ready} supplied profiles without empty slots`, async ({
+    page,
+  }) => {
     await page.route('**/src/data/team.ts', async (route) => {
       const response = await route.fetch();
       await route.fulfill({
@@ -393,7 +388,15 @@ for (const ready of [5, 8, 11]) {
       await page.goto('/');
       await page.getByRole('button', { name: 'Познайомитися', exact: true }).click();
       await expect(page.locator('.member-card')).toHaveCount(ready);
-      await expect(page.locator('.placeholder-card')).toHaveCount(11 - ready);
+      await expect(page.locator('.placeholder-card')).toHaveCount(0);
+      await expect(
+        page.getByRole('list', { name: 'Склад команди' }).getByRole('listitem'),
+      ).toHaveCount(ready);
+      await expect(
+        page
+          .locator('.team-screen > div')
+          .getByText(String(ready).padStart(2, '0'), { exact: true }),
+      ).toBeVisible();
       for (const card of await page.locator('.member-card').all()) {
         const box = await card.boundingBox();
         const portrait = await card.locator('.avatar').boundingBox();
@@ -421,6 +424,11 @@ for (const ready of [5, 8, 11]) {
       expect(bounds.fits).toBe(true);
       expect(bounds.width).toBeLessThanOrEqual(bounds.innerWidth);
       await page.screenshot({ path: `test-results/team-${ready}-${viewport.width}.png` });
+      await page.keyboard.press('End');
+      await expect(page.locator('.summary-count')).toHaveText(`${String(ready).padStart(2, '0')}.`);
+      await expect(
+        page.getByLabel(`Слайд ${ready + 3} / ${ready + 3}`, { exact: true }),
+      ).toBeVisible();
     }
   });
 }

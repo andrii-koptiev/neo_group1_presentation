@@ -59,68 +59,6 @@
   min-width: 0;
   min-height: 0;
 }
-.placeholder {
-  height: 100%;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  border: 1px dashed #bc9fff4d;
-  border-radius: 16px;
-  background: linear-gradient(150deg, #64418e30, #29304635);
-  overflow: hidden;
-}
-.slotNumber {
-  position: absolute;
-  top: 12px;
-  left: 14px;
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 24px;
-  border: 1px solid #b89ade40;
-  border-radius: 6px;
-  font-size: 11px;
-  color: #c8b2ed;
-}
-.ghost {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 28px 10px 8px;
-  color: #baa3df;
-  background: radial-gradient(ellipse at 50% 60%, #996fed16, transparent 65%);
-}
-.ghost svg {
-  width: 96px;
-  height: 96px;
-  stroke-width: 1;
-  opacity: 0.65;
-}
-.ghost span {
-  font-size: 10px;
-  color: #b9a5d2;
-}
-.pendingCopy {
-  padding: 22px;
-  border-top: 1px solid #cbb3ff12;
-}
-.pendingCopy h2 {
-  font-size: 26px;
-  font-weight: 500;
-  line-height: 1.3;
-  color: #ded2f2;
-}
-.pendingCopy p {
-  margin-top: 8px;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #b6a9cb;
-}
 .note {
   display: flex;
   justify-content: space-between;
@@ -223,12 +161,6 @@
   .shared {
     white-space: normal;
   }
-  .pendingCopy h2 {
-    font-size: 24px;
-  }
-  .pendingCopy p {
-    font-size: 13px;
-  }
 }
 @media (max-width: 600px) {
   .screen.screen {
@@ -267,39 +199,6 @@
     grid-template-columns: 1fr;
     grid-auto-rows: minmax(220px, 1fr);
     gap: 12px;
-  }
-  .placeholder {
-    display: grid;
-    grid-template-columns: 104px minmax(0, 1fr);
-    align-items: center;
-    border-radius: 12px;
-  }
-  .slotNumber {
-    top: 10px;
-    left: 10px;
-    width: 26px;
-    height: 22px;
-    font-size: 10px;
-  }
-  .ghost {
-    padding: 26px 12px 10px;
-  }
-  .ghost svg {
-    width: 60px;
-    height: 60px;
-  }
-  .ghost span {
-    display: none;
-  }
-  .pendingCopy {
-    padding: 16px;
-    border: 0;
-  }
-  .pendingCopy h2 {
-    font-size: 22px;
-  }
-  .pendingCopy p {
-    font-size: 13px;
   }
   .note {
     font-size: 10px;

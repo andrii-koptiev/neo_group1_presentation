@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowDown, Code2, UserRound } from 'lucide-react';
-import { content, getTeamRoster, team, type TeamMember } from '../data/team';
+import { ArrowDown, Code2 } from 'lucide-react';
+import { content, team, type TeamMember } from '../data/team';
 import { MemberCard } from '../components/MemberCard';
 import styles from './TeamScreen.module.css';
 
 export function TeamScreen({ onSelect }: { onSelect: (index: number) => void }) {
   const [preview, setPreview] = useState<TeamMember | null>(null);
-  const roster = getTeamRoster();
+  const memberCount = team.length;
   const gridRef = useRef<HTMLUListElement>(null);
   const [scrollable, setScrollable] = useState(false);
   const c = content.overview;
@@ -19,7 +19,7 @@ export function TeamScreen({ onSelect }: { onSelect: (index: number) => void }) 
     observer.observe(grid);
     update();
     return () => observer.disconnect();
-  }, [roster.total]);
+  }, [memberCount]);
   return (
     <section className={`team-screen ${styles.screen}`}>
       <div className={styles.heading}>
@@ -29,7 +29,7 @@ export function TeamScreen({ onSelect }: { onSelect: (index: number) => void }) 
           <p className={styles.subtitle}>{c.subtitle}</p>
         </div>
         <span className={styles.count}>
-          <strong>{String(roster.total).padStart(2, '0')}</strong> {c.people}
+          <strong>{String(memberCount).padStart(2, '0')}</strong> {c.people}
         </span>
       </div>
 
@@ -50,27 +50,6 @@ export function TeamScreen({ onSelect }: { onSelect: (index: number) => void }) 
             />
           </li>
         ))}
-        {roster.pending.map((slot) => (
-          <li
-            className={styles.cell}
-            key={slot.id}
-            aria-label={`${c.pendingLabel} ${slot.number}. ${c.pending}`}
-          >
-            <div className={`placeholder-card ${styles.placeholder}`}>
-              <span className={`${styles.slotNumber} mono`} aria-hidden="true">
-                {String(slot.number).padStart(2, '0')}
-              </span>
-              <div className={styles.ghost} aria-hidden="true">
-                <UserRound />
-                <span className="mono">{c.pendingCommand}</span>
-              </div>
-              <div className={styles.pendingCopy}>
-                <h2>{c.pending}</h2>
-                <p>{c.pendingHint}</p>
-              </div>
-            </div>
-          </li>
-        ))}
       </ul>
 
       <div className={styles.note}>
@@ -89,7 +68,7 @@ export function TeamScreen({ onSelect }: { onSelect: (index: number) => void }) 
             </>
           ) : (
             <>
-              {roster.total} {c.note}
+              {memberCount} {c.note}
             </>
           )}
         </span>
