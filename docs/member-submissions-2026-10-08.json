@@ -1,0 +1,14 @@
+{
+  "name": "Олександр",
+  "role": "QA Automation/SDET Lead",
+  "location": "Одеса → Краків, Польща",
+  "technologies": ["Java", "Python", "CI/CD", "Playwright", "REST API", "Locust"],
+  "about": "Маю 20 років досвіду у сфері software quality, test automation та engineering. Зараз живу та працюю в Кракові, Польща.",
+  "experience": "Починав з Manual QA і поступово перейшов до QA leadership, test automation, SDET та Automation CoE. Зараз керую кількома QA teams, що працюють у напрямках automation, manual testing та performance testing.",
+  "whyNeoversity": "Хочу поглибити свої знання в AI, Machine Learning та сучасних Computer Science і перейти від використання готових AI tools до розуміння принципів їх роботи та створення власних AI-рішень.",
+  "goal": "Створити production-ready AI/LLM solution, яка вирішує реальну бізнес-проблему.",
+  "superpower": "Моя суперсила - enablement команд: допомагаю людям зрозуміти складні речі, вибудувати правильні процеси та сфокусуватися на тому, що дійсно приводить до результату.",
+  "helpOthers": "Не обов'язково знати відповідь одразу - важливо вміти розібратися в проблемі. Допомагаю командам знаходити рішення, спрощуючи складні задачі та пояснюючи їх зрозумілою мовою.",
+  "afterGraduation": "Зробити career switch у AI/ML engineering та працювати над створенням production-ready AI-рішень.",
+  "nextStep": "AI/ML Engineering"
+}

@@ -66,6 +66,9 @@ export const featuredTechnologyNames = [
   'LLM Fine-tuning',
   'LoRA',
   'Self-hosted AI / Ollama',
+  'Playwright',
+  'CI/CD',
+  'Locust',
 ];
 
 // Відповіді учасників скорочено для презентації; джерело фото — надані командою знімки.
@@ -316,6 +319,32 @@ export const team: TeamMember[] = [
       'Працювати над створенням, донавчанням та оптимізацією спеціалізованих AI-моделей для конкретних задач.',
     nextStep: 'Fine-tuning моделей та AI-інфраструктура',
   },
+  {
+    id: 'oleksandr',
+    name: 'Олександр',
+    role: 'QA Automation / SDET Lead',
+    location: 'Одеса → Краків, Польща',
+    intro: '20 років у software quality · QA та автоматизація',
+    technologies: ['Java', 'Python', 'CI/CD', 'Playwright', 'REST API', 'Locust'],
+    cardTechnologies: ['Java', 'Python'],
+    image: 'photos/oleksandr-portrait.webp',
+    imageAlt: 'Портрет Олександра',
+    imageStyle: 'cutout',
+    accent: 'lime',
+    about:
+      '20 років у software quality, test automation та engineering. Зараз живу й працюю в Кракові.',
+    experience:
+      'Пройшов шлях від Manual QA до QA leadership, SDET та Automation CoE. Керую кількома QA-командами: автоматизація, ручне й performance-тестування.',
+    whyNeoversity:
+      'Хочу поглибити знання AI, ML та Computer Science: розуміти принципи роботи AI-інструментів і створювати власні рішення.',
+    goal: 'Створити production-ready AI/LLM-рішення для реальної бізнес-проблеми.',
+    superpower:
+      'Допомагаю командам зрозуміти складне, налагодити процеси й зосередитися на тому, що дає результат.',
+    helpOthers:
+      'Допомагаю знаходити рішення: розкладаю складні задачі на зрозумілі кроки та пояснюю їх простою мовою.',
+    afterGraduation: 'Перейти в AI/ML engineering і працювати над production-ready AI-рішеннями.',
+    nextStep: 'AI/ML Engineering',
+  },
 ];
 
 export const profileSections = [
@@ -503,21 +532,21 @@ export const content = {
         label: 'Сильні сторони',
         title: 'Наш спільний стек',
         answer:
-          'Ми поєднуємо досвід у розробці, аналітиці, продукті та інфраструктурі. Дивимося на задачі з різних боків — від інтерфейсу до сервера. Тепер додаємо AI / ML.',
-        tags: ['Product', 'UI', 'API', 'Data', 'Infra'],
+          'Ми поєднуємо досвід у розробці, QA, аналітиці, продукті та інфраструктурі. Дивимося на задачі з різних боків — від ідеї до якості й запуску. Тепер додаємо AI / ML.',
+        tags: ['Product', 'UI', 'API', 'Data', 'QA', 'Infra'],
       },
       {
         label: 'Різноманітність досвіду',
         title: 'Від Swift до LoRA і Docker',
         answer:
-          'Наш стек — React, .NET, Java, Go, Swift, SQL, Power BI, Linux, Docker і LoRA. Ми доповнюємо одне одного й разом бачимо більше можливостей.',
-        tags: ['Frontend', 'Backend', 'Mobile', 'Infra', 'Models'],
+          'У нашому стеку — React, .NET, Java, Swift, SQL, Linux, Docker, LoRA, Python і Playwright. Розробка, дані та QA доповнюють одне одного.',
+        tags: ['Software', 'Data', 'QA', 'Infra', 'AI / ML'],
       },
       {
         label: 'Спільні цілі',
         title: 'Розуміти й будувати',
         answer:
-          'Ми хочемо глибоко зрозуміти AI / ML і поєднати ці знання з нашим досвідом. Наш наступний реліз — власні AI-рішення для реальних задач.',
+          'Ми хочемо глибоко зрозуміти AI / ML і поєднати ці знання з нашим досвідом. Наш наступний реліз — AI-рішення, готові до реальних продуктів.',
         tags: ['Основи AI / ML', 'Експерименти', 'Практика'],
       },
       {

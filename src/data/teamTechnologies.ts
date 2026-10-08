@@ -27,9 +27,10 @@ export function selectTeamTechnologies(members: Pick<TeamMember, 'technologies'>
     }
   }
 
-  for (let position = 0; position < 2; position++) {
+  for (let round = 0; round < 2; round++) {
     for (const member of profiles) {
-      const name = member.technologies[position]?.trim();
+      // A shared primary technology should not hide another member's distinct skills.
+      const name = member.technologies.find((name) => !selected.has(keyOf(name)))?.trim();
       if (name && selected.size < limit) selected.set(keyOf(name), counts.get(keyOf(name))!.name);
     }
   }
